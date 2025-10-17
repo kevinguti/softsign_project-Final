@@ -11,7 +11,7 @@ class AssertionStatusCode:
         assert response.status_code == 200
 
     @staticmethod
-    def assert_status_code_201(response):
+    def assert_status_code_201(response: object) -> None:
         assert response.status_code == 201
         
     @staticmethod

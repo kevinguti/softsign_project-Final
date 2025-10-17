@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "includedInPrice": {
+      "type": "boolean"
+    },
+    "calculator": {
+      "type": "string"
+    },
+    "zone": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "code",
+    "name",
+    "amount",
+    "includedInPrice",
+    "calculator",
+    "zone",
+    "category"
+  ]
+}
