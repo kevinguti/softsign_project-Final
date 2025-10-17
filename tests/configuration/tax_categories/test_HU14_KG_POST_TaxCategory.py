@@ -9,6 +9,7 @@ from src.routes.request import SyliusRequest
 from src.data.taxCategory import generate_tax_category_data
 from utils.logger_helpers import log_request_response
 from src.resources.call_request.taxCategory_call import TaxCategoryCall
+from src.services.client import SyliusClient
 
 """
 TC60 - Crear categoría de impuesto exitosamente: La API debe permitir crear una categoría de impuesto

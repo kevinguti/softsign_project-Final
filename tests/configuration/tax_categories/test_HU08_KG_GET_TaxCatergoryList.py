@@ -1,7 +1,5 @@
 import pytest
-import logging
 import requests
-
 from src.assertions.TaxCategory_assertions.tax_category_get_content_assertions import AssertionTaxCategoryFields
 from src.assertions.TaxCategory_assertions.tax_category_errors_assertions import AssertionTaxCategoryErrors
 from src.assertions.TaxCategory_assertions.taxCategory_schema_assertions import AssertionTaxCategory

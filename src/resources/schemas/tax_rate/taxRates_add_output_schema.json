@@ -1,0 +1,67 @@
+{
+  "type": "object",
+  "properties": {
+    "@context": {
+      "type": "string"
+    },
+    "@id": {
+      "type": "string"
+    },
+    "@type": {
+      "type": "string"
+    },
+    "zone": {
+      "type": "string"
+    },
+    "id": {
+      "type": "integer"
+    },
+    "code": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "includedInPrice": {
+      "type": "boolean"
+    },
+    "calculator": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "null"
+    },
+    "endDate": {
+      "type": "null"
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "updatedAt": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "@context",
+    "@id",
+    "@type",
+    "zone",
+    "id",
+    "code",
+    "category",
+    "name",
+    "amount",
+    "includedInPrice",
+    "calculator",
+    "startDate",
+    "endDate",
+    "createdAt",
+    "updatedAt"
+  ]
+}

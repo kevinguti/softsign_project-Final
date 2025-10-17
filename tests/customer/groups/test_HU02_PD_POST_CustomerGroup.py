@@ -17,20 +17,14 @@ from utils.logger_helpers import log_request_response
 @pytest.mark.high
 def test_TC153_crear_grupo_clientes_datos_validos(setup_customer_group_cleanup):
     auth_headers, add_group_for_cleanup = setup_customer_group_cleanup
-
     data = generate_customer_group_source_data()
-
     endpoint = EndpointCustomerGroup.customer_group()
     response = SyliusRequest.post(endpoint, auth_headers, data)
-
     log_request_response(endpoint, response, headers=auth_headers, payload=data)
-
     AssertionStatusCode.assert_status_code_201(response)
     AssertionCustomerGroup.assert_customer_group_output_schema(response.json())
-
     customer_group_code = response.json()["code"]
     add_group_for_cleanup(customer_group_code)
-
     assert response.json()["code"] == data["code"]
     assert response.json()["name"] == data["name"]
 
@@ -40,16 +34,12 @@ def test_TC153_crear_grupo_clientes_datos_validos(setup_customer_group_cleanup):
 @pytest.mark.high
 def test_TC154_verificar_estructura_json_respuesta_creacion(setup_customer_group_cleanup):
     auth_headers, add_group_for_cleanup = setup_customer_group_cleanup
-    
     data = generate_customer_group_source_data()
     endpoint = EndpointCustomerGroup.customer_group()
     response = SyliusRequest.post(endpoint, auth_headers, data)
-    
     log_request_response(endpoint, response, headers=auth_headers, payload=data)
-    
     AssertionStatusCode.assert_status_code_201(response)
     AssertionCustomerGroup.assert_customer_group_output_schema(response.json())
-    
     customer_group_code = response.json()["code"]
     add_group_for_cleanup(customer_group_code)
 
@@ -267,9 +257,7 @@ def test_TC166_crear_grupo_json_malformado(auth_headers):
         headers=headers_with_json,
         data='{"code": "test", "name": invalid_json}'
     )
-    
     log_request_response(endpoint, response, headers=headers_with_json)
-    
     AssertionStatusCode.assert_status_code_400(response)
 
 
@@ -282,8 +270,6 @@ def test_TC167_crear_grupo_content_type_incorrecto(auth_headers):
     headers_with_text = auth_headers.copy()
     headers_with_text['Content-Type'] = 'text/plain'
     endpoint = EndpointCustomerGroup.customer_group()
-    
-    # Para content-type incorrecto, necesitamos usar requests directamente
     import requests
     response = requests.post(
         endpoint,

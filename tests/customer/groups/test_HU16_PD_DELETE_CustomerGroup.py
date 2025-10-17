@@ -16,19 +16,14 @@ from utils.logger_helpers import log_request_response
 @pytest.mark.smoke
 @pytest.mark.high
 def test_TC293_eliminar_grupo_clientes_existente(auth_headers):
-    
     initial_data = generate_customer_group_source_data()
     create_endpoint = EndpointCustomerGroup.customer_group()
     create_response = SyliusRequest.post(create_endpoint, auth_headers, initial_data)
     AssertionStatusCode.assert_status_code_201(create_response)
-    
     customer_group_code = create_response.json()["code"]
-    
     endpoint = EndpointCustomerGroup.code(customer_group_code)
     response = SyliusRequest.delete(endpoint, auth_headers)
-    
     log_request_response(endpoint, response, headers=auth_headers)
-    
     AssertionStatusCode.assert_status_code_204(response)
 
 
@@ -36,13 +31,10 @@ def test_TC293_eliminar_grupo_clientes_existente(auth_headers):
 @pytest.mark.negative
 @pytest.mark.high
 def test_TC294_eliminar_grupo_codigo_inexistente(auth_headers):
-    
     codigo_inexistente = "grupo_inexistente_12345"
     endpoint = EndpointCustomerGroup.code(codigo_inexistente)
     response = SyliusRequest.delete(endpoint, auth_headers)
-    
     log_request_response(endpoint, response, headers=auth_headers)
-    
     AssertionStatusCode.assert_status_code_404(response)
     AssertionCustomerGroupErrors.assert_not_found_error(response)
 
