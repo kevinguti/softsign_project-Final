@@ -13,4 +13,37 @@ class PayloadTaxRate:
             "zone": data.get("zone"),
             "category": data.get("category")
         }
+        if "startDate" in data:
+            payload["startDate"] = data.get("startDate")
+        if "endDate" in data:
+            payload["endDate"] = data.get("endDate")
+
         return payload
+
+    @staticmethod
+    def build_minimal_payload(code, name, amount, zone, category):
+        """Para cuando solo quieres los campos mínimos requeridos"""
+        return {
+            "code": code,
+            "name": name,
+            "amount": amount,
+            "includedInPrice": False,
+            "calculator": "default",
+            "zone": zone,
+            "category": category
+        }
+
+    @staticmethod
+    def build_payload_with_dates(code, name, amount, zone, category, startDate, endDate):
+        """Para crear payload con fechas específicas"""
+        return {
+            "code": code,
+            "name": name,
+            "amount": amount,
+            "includedInPrice": False,
+            "calculator": "default",
+            "zone": zone,
+            "category": category,
+            "startDate": startDate,
+            "endDate": endDate
+        }

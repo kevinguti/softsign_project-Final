@@ -33,20 +33,23 @@ def setup_add_tax_rate(auth_headers):
 
     for tax_rate in created_tax_rates:
         try:
-            if isinstance(tax_rate, dict) and "id" in tax_rate:
-                tax_rate_id = tax_rate["id"]
+            if isinstance(tax_rate, dict) and "code" in tax_rate:
+                tax_rate_code = tax_rate["code"]
             elif isinstance(tax_rate, str):
-                tax_rate_id = tax_rate
-            elif hasattr(tax_rate, "json") and isinstance(tax_rate.json(), dict) and "id" in tax_rate.json():
-                tax_rate_id = tax_rate.json()["id"]
+                tax_rate_code = tax_rate
+            elif hasattr(tax_rate, "json") and isinstance(tax_rate.json(), dict) and "code" in tax_rate.json():
+                tax_rate_code = tax_rate.json()["code"]
             else:
                 print(f"[Cleanup] Formato desconocido: {tax_rate}")
                 continue
 
-            url = EndpointTaxRate.by_id(tax_rate_id)
-            response = SyliusRequest.delete(url, auth_headers)
-            if response.status_code != 204:
-                print(f"[Cleanup] Error al eliminar tax rate {tax_rate_id}: {response.status_code} - {response.text}")
+
+            from src.resources.call_request.taxRates_call import TaxRateCall
+            delete_response = TaxRateCall.delete_by_code(auth_headers, tax_rate_code)
+
+            if delete_response.status_code != 204:
+                print(
+                    f"[Cleanup] Error al eliminar tax rate {tax_rate_code}: {delete_response.status_code} - {delete_response.text}")
         except Exception as e:
             print(f"[Cleanup] Excepción al eliminar tax rate: {tax_rate}. Error: {e}")
 

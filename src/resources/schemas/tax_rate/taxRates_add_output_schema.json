@@ -35,10 +35,10 @@
       "type": "string"
     },
     "startDate": {
-      "type": "null"
+      "type":["string", "null"]
     },
     "endDate": {
-      "type": "null"
+      "type": ["string", "null"]
     },
     "createdAt": {
       "type": "string"
