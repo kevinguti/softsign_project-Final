@@ -73,7 +73,7 @@ def create_tax_rate_data(code=None, name=None, amount=None, includedInPrice=None
         "category": category or "/api/v2/admin/tax-categories/clothing"
     }
 
-    # Agregar fechas si se proporcionan
+
     if startDate is not None:
         tax_rate_data["startDate"] = startDate
     if endDate is not None:
@@ -86,3 +86,30 @@ def create_tax_rate_data(code=None, name=None, amount=None, includedInPrice=None
     tax_rate_data = {k: v for k, v in tax_rate_data.items() if v is not None}
 
     return tax_rate_data
+
+
+def generate_tax_rate_update_data():
+    """Genera datos aleatorios para actualizar un Tax Rate"""
+    return {
+        "name": f"Updated {fake.word().capitalize()} Tax Rate {random.randint(1000, 9999)}",
+        "amount": round(random.uniform(0.05, 0.25), 2),
+        "includedInPrice": fake.boolean()
+    }
+
+def generate_tax_rate_name_update():
+    """Genera solo un nuevo nombre para actualización"""
+    return {
+        "name": f"Renamed Tax Rate {int(datetime.now().timestamp())}"
+    }
+
+def generate_tax_rate_amount_update():
+    """Genera solo un nuevo amount para actualización"""
+    return {
+        "amount": round(random.uniform(0.10, 0.20), 2)
+    }
+
+def generate_tax_rate_boolean_update():
+    """Genera solo un nuevo includedInPrice para actualización"""
+    return {
+        "includedInPrice": fake.boolean()
+    }

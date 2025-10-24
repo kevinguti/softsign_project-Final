@@ -51,3 +51,21 @@ class AssertionTaxRateCreate:
         if "endDate" in payload:
             assert "endDate" in response_json, "La respuesta debe incluir endDate"
             assert response_json["endDate"] is not None, "endDate no debe ser null"
+
+
+    @staticmethod
+    def assert_tax_rate_update_response(original_data, update_payload, response_json):
+        """Valida que la actualización se aplicó correctamente"""
+        # Campos que se actualizaron
+        for field in update_payload:
+            if field in ["amount"]:
+                assert float(response_json[field]) == float(
+                    update_payload[field]), f"El {field} no se actualizó correctamente"
+            else:
+                assert response_json[field] == update_payload[field], f"El {field} no se actualizó correctamente"
+
+        # Campos que NO deberían cambiar
+        assert response_json["code"] == original_data["code"], "El código no debería cambiar"
+        assert response_json["id"] == original_data["id"], "El ID no debería cambiar"
+        assert response_json["zone"] == original_data["zone"], "La zona no debería cambiar"
+        assert response_json["category"] == original_data["category"], "La categoría no debería cambiar"

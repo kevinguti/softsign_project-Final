@@ -22,8 +22,3 @@ class TaxCategoryCall:
         response = SyliusRequest().delete(EndpointTaxCategory.code(tax_category_code), headers)
         return response
 
-    # En TaxCategoryCall
-    @classmethod
-    def create(cls, headers, payload):
-        response = SyliusRequest().post(EndpointTaxCategory.tax_category(), headers, payload)
-        return response  # <--- devuelve el objeto Response, NO response.json()

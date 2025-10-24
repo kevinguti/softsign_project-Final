@@ -61,13 +61,14 @@ def setup_edit_tax_rate(auth_headers):
     response = TaxRateCall.create(auth_headers, payload_tax)
     tax_rate_data = response.json()
 
-    # Verifica que tiene 'id'
-    assert "id" in tax_rate_data, f"La respuesta de creación no contiene 'id': {tax_rate_data}"
+    # Verifica que tiene 'code'
+    assert "code" in tax_rate_data, f"La respuesta de creación no contiene 'code': {tax_rate_data}"
 
     yield auth_headers, tax_rate_data
 
-    # Cleanup
-    TaxRateCall.delete_by_id(auth_headers, tax_rate_data["id"])
+    # Cleanup por código (que es lo que usa la API)
+    TaxRateCall.delete_by_code(auth_headers, tax_rate_data["code"])
+
 
 
 @pytest.fixture(scope="function")

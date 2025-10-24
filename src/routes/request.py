@@ -38,3 +38,11 @@ class SyliusRequest:
         headers.update({'Content-Type': 'application/json'})
         response = requests.delete(url, headers=headers, json=payload)
         return response
+
+    @staticmethod
+    def put_ld_json(url, headers, payload):
+        """PUT con headers JSON-LD para Sylius"""
+        ld_headers = headers.copy()
+        ld_headers['Content-Type'] = 'application/ld+json'
+        ld_headers['Accept'] = 'application/ld+json'
+        return SyliusRequest.put(url, ld_headers, payload)
