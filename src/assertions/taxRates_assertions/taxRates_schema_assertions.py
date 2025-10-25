@@ -32,3 +32,7 @@ class AssertionTaxRate:
     @staticmethod
     def assert_tax_rate_edit_output_schema(response):
         return AssertionSchemas().validate_json_schema(response, "taxRates_edit_output_schema.json", AssertionTaxRate.MODULE)
+
+    @staticmethod
+    def assert_tax_rate_edit_error_schema(response):
+        return AssertionSchemas().validate_json_schema(response, "taxRates_edit_error_schema.json", AssertionTaxRate.MODULE)

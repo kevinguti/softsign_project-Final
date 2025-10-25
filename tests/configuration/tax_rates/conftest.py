@@ -73,7 +73,6 @@ def setup_edit_tax_rate(auth_headers):
 
 @pytest.fixture(scope="function")
 def setup_create_tax_rate(auth_headers):
-    """Fixture simple para creación sin cleanup automático (debe manejarse en el test)"""
     payload_tax = PayloadTaxRate.build_payload_tax_rate(generate_tax_rate_data())
     response = TaxRateCall.create(auth_headers, payload_tax)
     tax_rate_data = response.json()

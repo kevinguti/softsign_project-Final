@@ -88,13 +88,15 @@ def create_tax_rate_data(code=None, name=None, amount=None, includedInPrice=None
     return tax_rate_data
 
 
-def generate_tax_rate_update_data():
-    """Genera datos aleatorios para actualizar un Tax Rate"""
-    return {
-        "name": f"Updated {fake.word().capitalize()} Tax Rate {random.randint(1000, 9999)}",
-        "amount": round(random.uniform(0.05, 0.25), 2),
-        "includedInPrice": fake.boolean()
+def generate_tax_rate_update_data(name=None, amount=None, includedInPrice=None):
+    """Genera datos para actualizar un tax rate"""
+    data = {
+        "name": name if name is not None else f"Updated Tax Rate {random.randint(1000, 9999)}",
+        "amount": amount if amount is not None else round(random.uniform(0.05, 0.25), 2),
+        "includedInPrice": includedInPrice if includedInPrice is not None else random.choice([True, False]),
+        "calculator": "default"
     }
+    return data
 
 def generate_tax_rate_name_update():
     """Genera solo un nuevo nombre para actualización"""

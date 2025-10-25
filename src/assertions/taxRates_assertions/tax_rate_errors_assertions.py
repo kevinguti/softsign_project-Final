@@ -1,3 +1,5 @@
+import re
+
 class AssertionTaxRateErrors:
 
     @staticmethod
@@ -130,3 +132,142 @@ class AssertionTaxRateErrors:
             assert any(word in description for word in
                        ["not found", "item not found", "category", "tax category", "resource"]), \
                 f"El mensaje de error debería indicar que la categoría no existe: {description}"
+
+    @staticmethod
+    def assert_tax_rate_name_not_blank_error(response_json: dict) -> None:
+        """Valida el error de nombre vacío en tax rate"""
+        assert response_json["status"] == 422, f"Expected status 422, got {response_json['status']}"
+
+        if "violations" in response_json:
+            # Buscar la violación relacionada con el nombre
+            name_violations = [
+                violation for violation in response_json["violations"]
+                if violation.get("propertyPath") == "name"
+            ]
+
+            assert len(name_violations) > 0, "No violation found for 'name' property"
+
+            # Verificar que el mensaje indica que el nombre no puede estar vacío
+            violation_messages = [violation.get("message", "").lower() for violation in name_violations]
+
+            # Buscar en todos los mensajes de violación del campo 'name'
+            assert any(
+                any(term in message for term in ["please enter", "blank", "empty", "required", "at least"])
+                for message in violation_messages
+            ), f"Expected name validation message, got: {violation_messages}"
+
+        else:
+            # Para respuestas sin array de violations
+            error_text = response_json.get("detail", "").lower()
+            assert any(term in error_text for term in ["please enter", "name", "blank", "empty"]), \
+                f"Expected name validation error in detail, got: {error_text}"
+
+    @staticmethod
+    def assert_tax_rate_not_found_error(response_json: dict) -> None:
+        """Valida el error de tax rate no encontrado"""
+        assert response_json["status"] == 404, f"Expected status 404, got {response_json['status']}"
+
+        # Verificar que contiene mensajes indicando que no se encontró el recurso
+        error_text = f"{response_json.get('detail', '')} {response_json.get('hydra:description', '')}".lower()
+
+        assert any(term in error_text for term in [
+            "not found",
+            "not exist",
+            "no found",
+            "could not find",
+            "does not exist"
+        ]), f"Expected 'not found' message, got: {error_text}"
+
+        # Verificar estructura hydra para errores 404
+        assert "hydra:title" in response_json, "Missing hydra:title in 404 response"
+        assert "hydra:description" in response_json, "Missing hydra:description in 404 response"
+
+    @staticmethod
+    def assert_tax_rate_amount_non_negative_error(response_json):
+        """
+        Verifica que la respuesta contenga un error relacionado con
+        que 'amount' no puede ser negativo (o debe ser >= 0).
+        """
+        # Extraer posibles violaciones/errores en formatos comunes
+        violations = []
+        if isinstance(response_json, dict):
+            violations = response_json.get("violations") or response_json.get("errors") or []
+        if not isinstance(violations, list):
+            violations = [violations]
+
+        # Normalizar mensajes
+        messages = []
+        for v in violations:
+            if isinstance(v, dict):
+                field = (v.get("propertyPath") or v.get("field") or "").lower()
+                msg = (v.get("message") or v.get("detail") or v.get("title") or "").strip()
+                messages.append((field, msg))
+            elif isinstance(v, str):
+                messages.append(("", v))
+
+        # Patrón que cubre "no negativo", ">= 0", "greater than or equal to 0", etc.
+        pattern = re.compile(
+            r"(non[- ]?negative|>=\s*0|greater than or equal to|no puede ser negativo|no negativo|must be greater than or equal to 0)",
+            re.I)
+
+        found = False
+        for field, msg in messages:
+            if "amount" in field or pattern.search(msg):
+                found = True
+                break
+
+        assert found, f"No se encontró error de 'amount non-negative' en la respuesta: {response_json}"
+
+    @staticmethod
+    def assert_tax_rate_includedInPrice_boolean_error(response_json: dict) -> None:
+        """Valida el error de includedInPrice con valor no booleano"""
+        # Primero debuggear para ver qué está devolviendo la API
+        print(f"Status Code in response: {response_json.get('status')}")
+        print(f"Response violations: {response_json.get('violations', [])}")
+        print(f"Response detail: {response_json.get('detail', '')}")
+
+        # Aceptar tanto 400 como 422
+        assert response_json["status"] in [400, 422], f"Expected status 400 or 422, got {response_json['status']}"
+
+        if "violations" in response_json:
+            # Buscar violaciones del campo 'includedInPrice'
+            included_in_price_violations = [
+                violation for violation in response_json["violations"]
+                if violation.get("propertyPath") == "includedInPrice"
+            ]
+
+            assert len(included_in_price_violations) > 0, "No validation error found for 'includedInPrice' field"
+
+            # Verificar que el mensaje indica el problema de tipo
+            violation_messages = [violation.get("message", "").lower() for violation in included_in_price_violations]
+
+            # Términos que podrían aparecer en el mensaje de error
+            expected_terms = ["boolean", "true", "false", "type", "bool", "this value", "expected"]
+            assert any(
+                any(term in message for term in expected_terms)
+                for message in violation_messages
+            ), f"Expected type validation message, got: {violation_messages}"
+        else:
+            # Para respuestas sin array de violations
+            error_text = response_json.get("detail", "").lower()
+            assert any(term in error_text for term in ["includedinprice", "boolean", "type"]), \
+                f"Expected includedInPrice validation error, got: {error_text}"
+
+    @staticmethod
+    def assert_tax_rate_code_not_blank_error(response_json: dict) -> None:
+        """Valida el error de código vacío en tax rate"""
+        violations = response_json.get("violations", [])
+
+        found = any(
+            (v.get("propertyPath") == "code" and
+             any(term in (v.get("message", "").lower())
+                 for term in ["blank", "not be blank", "no puede", "vacío"]))
+            for v in violations
+        )
+
+        # Fallback al detail general
+        if not found and "detail" in response_json:
+            detail = response_json["detail"].lower()
+            found = "code" in detail and any(term in detail for term in ["blank", "not be blank"])
+
+        assert found, f"No se encontró el error 'code not blank'. Violations: {violations}"
