@@ -271,3 +271,89 @@ class AssertionTaxRateErrors:
             found = "code" in detail and any(term in detail for term in ["blank", "not be blank"])
 
         assert found, f"No se encontró el error 'code not blank'. Violations: {violations}"
+
+    @staticmethod
+    def assert_tax_rate_name_too_long_error(response_json: dict) -> None:
+        """Valida el error de nombre demasiado largo"""
+        assert response_json["status"] == 422, f"Expected status 422, got {response_json['status']}"
+        assert "violations" in response_json, "Missing violations in response"
+
+        # Buscar violaciones del campo 'name'
+        name_violations = [
+            violation for violation in response_json["violations"]
+            if violation.get("propertyPath") == "name"
+        ]
+
+        assert len(name_violations) > 0, "No validation error found for 'name' field"
+
+        # Verificar que el mensaje indica problema de longitud
+        violation_messages = [violation.get("message", "").lower() for violation in name_violations]
+
+        expected_terms = ["long", "length", "max", "255", "limit", "size"]
+        assert any(
+            any(term in message for term in expected_terms)
+            for message in violation_messages
+        ), f"Expected length validation message, got: {violation_messages}"
+
+    @staticmethod
+    def assert_tax_rate_invalid_characters_error(response_json: dict, field_name: str) -> None:
+        """Valida error de caracteres inválidos en un campo específico"""
+        assert response_json["status"] == 422, f"Expected status 422, got {response_json['status']}"
+        assert "violations" in response_json, "Missing violations in response"
+
+        # Buscar violaciones del campo específico
+        field_violations = [
+            violation for violation in response_json["violations"]
+            if violation.get("propertyPath") == field_name
+        ]
+
+        assert len(field_violations) > 0, f"No validation error found for '{field_name}' field"
+
+        # Verificar que el mensaje indica caracteres inválidos
+        violation_messages = [violation.get("message", "").lower() for violation in field_violations]
+
+        invalid_terms = ["invalid", "character", "format", "pattern", "symbol", "special"]
+        assert any(
+            any(term in message for term in invalid_terms)
+            for message in violation_messages
+        ), f"Expected invalid characters validation for {field_name}, got: {violation_messages}"
+
+    @staticmethod
+    def assert_tax_rate_validation_error(response_json: dict, field_name: str) -> None:
+        """Valida cualquier error de validación para un campo específico"""
+        assert response_json["status"] == 422, f"Expected status 422, got {response_json['status']}"
+        assert "violations" in response_json, "Missing violations in response"
+
+        # Buscar violaciones del campo específico
+        field_violations = [
+            violation for violation in response_json["violations"]
+            if violation.get("propertyPath") == field_name
+        ]
+
+        assert len(field_violations) > 0, f"No validation error found for '{field_name}' field"
+
+        # El test pasa si hay cualquier violación en el campo especificado
+        print(f"Validation error found for {field_name}: {field_violations[0].get('message')}")
+
+    @staticmethod
+    def assert_tax_rate_amount_validation_error(response_json: dict) -> None:
+        """Valida error de validación en el campo amount"""
+        assert response_json["status"] == 422, f"Expected status 422, got {response_json['status']}"
+        assert "violations" in response_json, "Missing violations in response"
+
+        # Buscar violaciones del campo 'amount'
+        amount_violations = [
+            violation for violation in response_json["violations"]
+            if violation.get("propertyPath") == "amount"
+        ]
+
+        assert len(amount_violations) > 0, "No validation error found for 'amount' field"
+
+        # Verificar que el mensaje indica problema con amount
+        violation_messages = [violation.get("message", "").lower() for violation in amount_violations]
+
+        amount_terms = ["amount", "value", "range", "greater", "less", "negative", "positive"]
+        assert any(
+            any(term in message for term in amount_terms)
+            for message in violation_messages
+        ), f"Expected amount validation message, got: {violation_messages}"

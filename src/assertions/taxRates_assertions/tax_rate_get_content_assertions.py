@@ -101,14 +101,24 @@ class AssertionTaxRateGetContent:
                 assert "/api/v2/admin/tax-rates?" in view_data["hydra:last"], "Enlace last incorrecto"
 
     @staticmethod
+    @staticmethod
     def assert_tax_rate_not_found_error(error_data: dict) -> None:
         """Valida el error cuando no se encuentra un tax rate"""
+        # Verificar status code
         assert error_data["status"] == 404, f"Expected status 404, got {error_data['status']}"
+
+        # Verificar estructura básica del error
+        assert "@context" in error_data, "Falta @context en respuesta de error"
+        assert "@type" in error_data, "Falta @type en respuesta de error"
         assert "detail" in error_data or "hydra:description" in error_data, "Falta mensaje de error"
 
-        error_message = f"{error_data.get('detail', '')} {error_data.get('hydra:description', '')}".lower()
-        assert any(term in error_message for term in ["not found", "not exist"]), \
-            f"Expected 'not found' message, got: {error_message}"
+        # Verificar que el mensaje indica "not found"
+        error_text = f"{error_data.get('detail', '')} {error_data.get('hydra:description', '')}".lower()
+
+        # Términos que podrían aparecer en el mensaje de error
+        not_found_terms = ["not found", "not exist", "no found", "could not find", "does not exist"]
+        assert any(term in error_text for term in not_found_terms), \
+            f"Expected 'not found' message, got: {error_text}"
 
     @staticmethod
     def assert_tax_rate_matches_expected(tax_rate_data: dict, expected_data: dict) -> None:
@@ -128,3 +138,51 @@ class AssertionTaxRateGetContent:
         # Si se proporcionan datos esperados, validar coincidencia
         if expected_data:
             AssertionTaxRateGetContent.assert_tax_rate_matches_expected(tax_rate_data, expected_data)
+
+    @staticmethod
+    def assert_jsonld_content_type(response) -> None:
+        """Valida que el Content-Type sea application/ld+json"""
+        content_type = response.headers.get("Content-Type", "")
+        assert "application/ld+json" in content_type, (
+            f"Content-Type debe ser 'application/ld+json'. Actual: {content_type}\n"
+            f"Respuesta completa: {response.text}"
+        )
+
+    @staticmethod
+    def assert_valid_json_response(response) -> None:
+        """Valida que la respuesta sea JSON válido"""
+        try:
+            response.json()
+        except ValueError as e:
+            pytest.fail(f"La respuesta no es JSON válido: {str(e)}")
+
+    @staticmethod
+    def assert_authentication_error(error_data: dict) -> None:
+        """Valida error de autenticación (401)"""
+        # Verificar status code
+        assert error_data["status"] == 401, f"Expected status 401, got {error_data['status']}"
+
+        # Verificar estructura básica del error
+        assert "@context" in error_data, "Falta @context en respuesta de error"
+        assert "@type" in error_data, "Falta @type en respuesta de error"
+        assert "detail" in error_data or "hydra:description" in error_data, "Falta mensaje de error"
+
+        # Verificar que contiene mensaje de error de autenticación
+        error_text = f"{error_data.get('detail', '')} {error_data.get('hydra:description', '')}".lower()
+
+        # Términos que podrían aparecer en el mensaje de error de autenticación
+        auth_terms = [
+            "unauthorized",
+            "authentication",
+            "token",
+            "jwt",
+            "bearer",
+            "access",
+            "login",
+            "credentials",
+            "authorization"
+        ]
+
+        assert any(term in error_text for term in auth_terms), \
+            f"Expected authentication error message, got: {error_text}"
+

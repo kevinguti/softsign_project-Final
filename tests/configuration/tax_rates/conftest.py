@@ -123,3 +123,28 @@ def setup_tax_rate_with_dependencies(auth_headers):
 
     # Cleanup
     TaxRateCall.delete_by_id(auth_headers, tax_rate_data["id"])
+
+
+
+@pytest.fixture
+def setup_delete_tax_rate(auth_headers):
+    """Fixture que crea un tax rate específicamente para tests de DELETE"""
+    # Crear un tax rate para eliminar
+    payload = generate_tax_rate_data()
+    create_url = EndpointTaxRate.tax_rate()
+    create_response = SyliusRequest.post(create_url, auth_headers, payload)
+
+    if create_response.status_code != 201:
+        pytest.fail(f"No se pudo crear tax rate para DELETE: {create_response.text}")
+
+    tax_rate_data = create_response.json()
+    tax_rate_code = tax_rate_data["code"]
+
+    yield auth_headers, tax_rate_data
+
+    # Cleanup: por si el test no eliminó el tax rate
+    try:
+        delete_url = EndpointTaxRate.by_code(tax_rate_code)
+        SyliusRequest.delete(delete_url, auth_headers)
+    except:
+        pass  # Si ya fue eliminado, no hay problema

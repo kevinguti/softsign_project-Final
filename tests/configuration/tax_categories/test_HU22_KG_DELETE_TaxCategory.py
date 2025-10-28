@@ -11,7 +11,8 @@ from utils.logger_helpers import log_request_response
 
 #TC75 Admin > Configuration  >Tax Category - Eliminar Tax Category exitosamente
 @pytest.mark.functional
-@pytest.mark.high
+@pytest.mark.positive
+@pytest.mark.smoke
 def test_TC75_eliminar_TaxCategory(auth_headers):
     initial_data = generate_tax_category_data()
     create_endpoint = EndpointTaxCategory.tax_category()
@@ -120,14 +121,10 @@ def test_TC338_eliminar_TaxCategory_headers_respuesta(auth_headers):
     create_response = SyliusRequest.post(create_endpoint, auth_headers, data)
     AssertionStatusCode.assert_status_code_201(create_response)
     tax_category_code = create_response.json().get("code")
-
     endpoint = EndpointTaxCategory.code(tax_category_code)
     response = SyliusRequest.delete(endpoint, auth_headers)
     log_request_response(endpoint, response, headers=auth_headers)
-
     AssertionStatusCode.assert_status_code_204(response)
-
-
     assert response.content == b"" or len(response.content) == 0
 
 
@@ -140,12 +137,10 @@ def test_TC339_eliminar_TaxCategory_verificar_no_existe(auth_headers):
     create_response = SyliusRequest.post(create_endpoint, auth_headers, initial_data)
     AssertionStatusCode.assert_status_code_201(create_response)
     tax_category_code = create_response.json().get("code")
-
     endpoint = EndpointTaxCategory.code(tax_category_code)
     delete_response = SyliusRequest.delete(endpoint, auth_headers)
     log_request_response(endpoint, delete_response, headers=auth_headers)
     AssertionStatusCode.assert_status_code_204(delete_response)
-
     get_deleted_response = SyliusRequest.get(endpoint, auth_headers)
     log_request_response(endpoint, get_deleted_response, headers=auth_headers)
     AssertionStatusCode.assert_status_code_404(get_deleted_response)

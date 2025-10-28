@@ -1,5 +1,5 @@
 import pytest
-
+import requests
 from src.assertions.taxRates_assertions.taxRates_schema_assertions import AssertionTaxRate
 from src.assertions.taxRates_assertions.tax_rate_get_content_assertions import AssertionTaxRateGetContent
 from src.assertions.status_code_assertions import AssertionStatusCode
@@ -9,11 +9,11 @@ from utils.logger_helpers import log_request_response
 from src.resources.call_request.taxRates_call import TaxRateCall
 from src.services.client import SyliusClient
 
-# Admin > Configuration > Tax Rate > Obtener listado de Tax Rates
+
 @pytest.mark.positive
 @pytest.mark.functional
 @pytest.mark.smoke
-def test_TC202_obtener_listado_tax_rates_valido(setup_teardown_view_tax_rate):
+def test_TC210_obtener_listado_tax_rates_valido(setup_teardown_view_tax_rate):
     headers, tax_rate1_data, tax_rate2_data = setup_teardown_view_tax_rate
     url = EndpointTaxRate.tax_rate()
     response = SyliusRequest.get(url, headers)
@@ -29,7 +29,7 @@ def test_TC202_obtener_listado_tax_rates_valido(setup_teardown_view_tax_rate):
 @pytest.mark.positive
 @pytest.mark.functional
 @pytest.mark.smoke
-def test_TC203_obtener_tax_rate_por_codigo_valido(setup_teardown_view_tax_rate):
+def test_TC211_obtener_tax_rate_por_codigo_valido(setup_teardown_view_tax_rate):
     headers, tax_rate1_data, tax_rate2_data = setup_teardown_view_tax_rate
     url = EndpointTaxRate.by_code(tax_rate1_data["code"])
     response = SyliusRequest.get(url, headers)
@@ -40,49 +40,111 @@ def test_TC203_obtener_tax_rate_por_codigo_valido(setup_teardown_view_tax_rate):
     log_request_response(url, response, headers)
 
 
-    @pytest.mark.positive
-    @pytest.mark.functional
-    @pytest.mark.smoke
-    def test_TC204_obtener_tax_rate_por_id_valido(setup_teardown_view_tax_rate):
-        """Test smoke para obtener un tax rate por ID específico"""
-        headers, tax_rate1_data, tax_rate2_data = setup_teardown_view_tax_rate
+@pytest.mark.negative
+@pytest.mark.functional
+def test_TC212_obtener_tax_rate_por_codigo_inexistente(setup_teardown_view_tax_rate):
+    headers, tax_rate1_data, tax_rate2_data = setup_teardown_view_tax_rate
+    nonexistent_code = "NONEXISTENT_CODE_123"
+    url = EndpointTaxRate.by_code(nonexistent_code)
+    response = SyliusRequest.get(url, headers)
+    AssertionStatusCode.assert_status_code_404(response)
+    log_request_response(url, response, headers)
 
-        # Obtener el segundo tax rate por ID
-        url = EndpointTaxRate.by_id(tax_rate2_data["id"])
-        response = SyliusRequest.get(url, headers)
 
-        AssertionStatusCode.assert_status_code_200(response)
-        response_json = response.json()
+@pytest.mark.positive
+@pytest.mark.functional
+def test_TC213_verificar_formato_jsonld_tax_rates(setup_teardown_view_tax_rate):
+    headers, tax_rate1_data, tax_rate2_data = setup_teardown_view_tax_rate
+    url = EndpointTaxRate.tax_rate()
+    response = SyliusRequest.get(url, headers)
+    AssertionStatusCode.assert_status_code_200(response)
+    content_type = response.headers.get("Content-Type", "")
+    AssertionTaxRateGetContent.assert_jsonld_content_type(response)
+    AssertionTaxRateGetContent.assert_valid_json_response(response)
+    log_request_response(url, response, headers)
 
-        # Validar schema de respuesta individual
-        AssertionTaxRate.assert_tax_rate_id_schema(response_json)
+@pytest.mark.positive
+@pytest.mark.functional
+def test_TC214_verificar_esquema_tax_rate_listado(setup_teardown_view_tax_rate):
+    headers, tax_rate1_data, tax_rate2_data = setup_teardown_view_tax_rate
+    url = EndpointTaxRate.tax_rate()
+    response = SyliusRequest.get(url, headers)
+    AssertionStatusCode.assert_status_code_200(response)
+    response_json = response.json()
+    AssertionTaxRate.assert_tax_rate_list_schema(response_json)
+    log_request_response(url, response, headers)
 
-        # Validar contenido específico
-        AssertionTaxRateGetContent.assert_tax_rate_complete_response(
-            response_json,
-            tax_rate2_data  # Datos esperados del segundo tax rate
-        )
+@pytest.mark.positive
+@pytest.mark.functional
+def test_TC215_verificar_codigo_respuesta_200_OK(setup_teardown_view_tax_rate):
+    headers, tax_rate1_data, tax_rate2_data = setup_teardown_view_tax_rate
+    url = EndpointTaxRate.tax_rate()
+    response = SyliusRequest.get(url, headers)
+    AssertionStatusCode.assert_status_code_200(response)
+    log_request_response(url, response, headers)
 
-        # Verificaciones smoke
-        assert response_json["id"] == tax_rate2_data["id"], "El ID no coincide"
-        assert response_json["code"] == tax_rate2_data["code"], "El código no coincide"
+@pytest.mark.positive
+@pytest.mark.functional
+def test_TC216_validar_paginacion_basica_tax_rate(setup_teardown_view_tax_rate):
+    headers, tax_rate1_data, tax_rate2_data = setup_teardown_view_tax_rate
+    url = EndpointTaxRate.tax_rate()
+    response = SyliusRequest.get(EndpointTaxRate.tax_rate_with_params(page=1, itemsPerPage=1), headers)
+    AssertionStatusCode.assert_status_code_200(response)
+    data = response.json()
+    assert isinstance(data.get("hydra:member", []), list)
+    assert len(data["hydra:member"]) <= 1
+    log_request_response(url, response, headers)
 
-        log_request_response(url, response, headers)
 
-    @pytest.mark.negative
-    @pytest.mark.functional
-    def test_TC205_obtener_tax_rate_por_codigo_inexistente(setup_teardown_view_tax_rate):
-        """Test para intentar obtener un tax rate con código que no existe"""
-        headers, _, _ = setup_teardown_view_tax_rate
+@pytest.mark.negative
+@pytest.mark.functional
+def test_TC217_verificar_respuesta_token_invalido_sin_autenticacion_tax_rate(auth_headers):
+    url = EndpointTaxRate.tax_rate()
+    response = SyliusRequest.get(url, headers={})
+    AssertionStatusCode.assert_status_code_401(response)
+    response_json = response.json()
+    log_request_response(url, response)
 
-        # Intentar obtener con código que no existe
-        url = EndpointTaxRate.by_code("CODIGO_INEXISTENTE_12345")
-        response = SyliusRequest.get(url, headers)
 
-        AssertionStatusCode.assert_status_code_404(response)
-        response_json = response.json()
+@pytest.mark.negative
+@pytest.mark.functional
+def test_TC218_verificar_respuesta_token_invalido_tax_rate(auth_headers):
+    url = EndpointTaxRate.tax_rate()
+    invalid_headers = auth_headers.copy()
+    invalid_headers["Authorization"] = "Bearer INVALID_TOKEN_123"
+    response = SyliusRequest.get(url, headers=invalid_headers)
+    AssertionStatusCode.assert_status_code_401(response)
+    response_json = response.json()
+    log_request_response(url, response, invalid_headers)
 
-        # Validar estructura de error
-        AssertionTaxRateGetContent.assert_tax_rate_not_found_error(response_json)
+@pytest.mark.negative
+@pytest.mark.functional
+def test_TC219_verificar_respuesta_token_expirado_tax_rate(auth_headers):
+    url = EndpointTaxRate.tax_rate()
+    expired_headers = auth_headers.copy()
+    expired_headers["Authorization"] = "Bearer EXPIRED_TOKEN_123"
+    response = SyliusRequest.get(url, headers=expired_headers)
+    AssertionStatusCode.assert_status_code_401(response)
+    response_json = response.json()
+    log_request_response(url, response, expired_headers)
 
-        log_request_response(url, response, headers)
+@pytest.mark.negative
+@pytest.mark.functional
+def test_TC220_verificar_respuesta_metodo_no_permitido_tax_rate(setup_teardown_view_tax_rate):
+    headers, tax_rate1_data, tax_rate2_data = setup_teardown_view_tax_rate
+    url = EndpointTaxRate.tax_rate()
+    response = SyliusRequest.post(url, headers)
+    AssertionStatusCode.assert_status_code_405(response)
+    response_json = response.json()
+    log_request_response(url, response, headers)
+
+@pytest.mark.positive
+@pytest.mark.functional
+def test_TC221_verificar_headers_respuesta_tax_rate(setup_teardown_view_tax_rate):
+    headers, tax_rate1_data, tax_rate2_data = setup_teardown_view_tax_rate
+    url = EndpointTaxRate.tax_rate()
+    response = SyliusRequest.get(url, headers)
+    AssertionStatusCode.assert_status_code_200(response)
+    content_type = response.headers.get("Content-Type", "")
+    assert "application/ld+json" in content_type, "El Content-Type no es application/ld+json"
+    log_request_response(url, response, headers)

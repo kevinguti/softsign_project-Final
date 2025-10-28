@@ -235,7 +235,8 @@ def test_TC203_crear_tax_rate_con_rango_fechas_validos(setup_add_tax_rate):
     created_tax_rates.append(response_json)
     log_request_response(url, response, headers, payload)
 
-
+@pytest.mark.negative
+@pytest.mark.functional
 def test_TC204_crear_tax_rate_con_endDate_anterior_a_startDate(setup_add_tax_rate):
     headers, created_tax_rates = setup_add_tax_rate
     payload = generate_tax_rate_data()
