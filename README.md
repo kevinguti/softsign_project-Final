@@ -1,21 +1,17 @@
 # DIPLOMADO INGENIERÍA DE CALIDAD DE SOFTWARE COMERCIAL (3ra Edición)
-## CARRERA DE INGENIERÍA INFORMÁTICA
+## CARRERA DE INGENIERÍA DE SISTEMAS
 
 ---
 
-### QUINTO MÓDULO
+### PROYECTO FINAL
 ### AUTOMATIZACIÓN DE PRUEBAS
 
 ---
 
 # Grupo: SoftSign  
-**Integrantes:**
-- Alvarez Cayo Elvis [![GitHub](https://img.shields.io/badge/GitHub-Elv500-blue?logo=github)](https://github.com/Elv500)
-- Gutierrez Orellana Kevin - Guti1712k
-- Delgadillo Fernandez Pablo Enrique - EDelgadillo
-- Navia Luna Edwin Efrain - Edwin Navia
-- Quiroga Almendras Liliana - lili-QA28
-- Soto Diaz Erika Jhaelis - EJhaelis
+**Estudiante:**
+- Kevin Gutierrez Orellana [![GitHub](https://img.shields.io/badge/GitHub-Elv500-blue?logo=github)](https://github.com/Elv500)
+
 
 **Docente:** Espinoza Rina
 
@@ -53,7 +49,7 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente:
 ### Paso 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/Elv500/Softsign.git
+git clone https://github.com/kevinguti/softsign_project-Final.git
 cd Softsign
 ```
 
@@ -108,7 +104,7 @@ El proyecto usa un archivo `.env` para variables sensibles como tokens o URLs ba
 
 2. Abre `.env` con tu editor de texto y completa los valores requeridos:
    ```bash
-   BASE_URL = https://demo.sylius.com
+   BASE_URL = https://V2.demo.sylius.com
    ADMIN_USERNAME = api@example.com
    ADMIN_PASSWORD = sylius-api
    ```
@@ -144,42 +140,18 @@ Para ejecutar por tipo de prueba, utilice la opción `-m` de pytest junto con la
 Ejm: pytest -m smoke
 ```
 
-| Tipo Testing | Comando |
-|--------|----------|
-| Smoke | `pytest -m smoke` |
-| Functional | `pytest -m functional` |
-| Negative | `pytest -m negative` |
-| Security | `pytest -m security` |
-| Boundary | `pytest -m boundary` |
-| Domain | `pytest -m domain` |
-| Stress | `pytest -m stress` |
-| Performance | `pytest -m performance` |
-| E2E | `pytest -m e2e` |
-| Inventory | `pytest -m inventory` |
-| Tax Category | `pytest -m tax_category` |
-| Customer Group | `pytest -m customer_group` |
-| Options | `pytest -m options` |
-| Attributes | `pytest -m attributes` |
-| High | `pytest -m high` |
-| Medium | `pytest -m medium` |
-| Low | `pytest -m low` |
+| Tipo Testing       | Comando                    |
+|--------------------|----------------------------|
+| Smoke              | `pytest -m smoke`          |
+| Functional         | `pytest -m functional`     |
+| Negative           | `pytest -m negative`       |
+| E2E                | `pytest -m e2e`            |
+| Tax Category       | `pytest -m tax_category`   |
+| Customer Group     | `pytest -m customer_group` |
+| Customer Tax Rates | `pytest -m tax_rate`       |
+| positive           | `pytest -m positive`       |                           |
 
-### Ejecutar por sub-módulo:
 
-Para ejecutar por sub-módulo se puede combinar con los demás parámetros, agregando el directorio del submodulo:
-```bash
-Ejm: pytest .\tests\ -m smoke -v
-```
-
-| Módulo| Sub-módulo | Comando |
-|-------|------------|---------|
-| Catálogo | Association Types | `pytest .\tests\catalog\association_types\` |
-|  | Attributes | `pytest .\tests\catalog\attributes\` |
-|  | Inventory | `pytest .\tests\catalog\inventory\` |
-|  | Options | `pytest .\tests\catalog\options\` |
-| Configuration | Tax Category | `pytest .\tests\tax_categories\` |
-| Customer | Group | `pytest .\tests\customer\groups\` |
-| Login | Autenticacion | `pytest .\tests\login\` |
 
 ### Ejecutar tests con reporte Allure
 
@@ -229,46 +201,17 @@ Para ejecutar por tipo de prueba, utilice la opción `-m` de pytest junto con la
 Ejm: -m smoke
 ```
 
-| Tipo Testing | Comando |
-|--------|----------|
-| Smoke | `-m smoke` |
-| Functional | `-m functional` |
-| Negative | `-m negative` |
-| Security | `-m security` |
-| Boundary | `-m boundary` |
-| Domain | `-m domain` |
-| Stress | `-m stress` |
-| Performance | `-m performance` |
-| E2E | `-m e2e` |
-| Inventory | `-m inventory` |
-| Tax Category | `-m tax_category` |
+| Tipo Testing   | Comando             |
+|----------------|---------------------|
+| Smoke          | `-m smoke`          |
+| Functional     | `-m functional`     |
+| Negative       | `-m negative`       |
+| positive       | `-m positive`       |
+| E2E            | `-m e2e`            |
+| Tax Category   | `-m tax_category`   |
 | Customer Group | `-m customer_group` |
-| Options | `-m options` |
-| Attributes | `-m attributes` |
-| High | `-m high` |
-| Medium | `-m medium` |
-| Low | `-m low` |
+| Tax Rate       | `-m tax_rate` 
 
-### Ejecutar por sub-módulo:
-
-Para ejecutar por sub-módulo se puede combinar con los demás parámetros, agregando el directorio del submodulo:
-```bash
-Ejm: pytest .\tests\ -m smoke -v
-```
-
-| Módulo| Sub-módulo | Comando |
-|-------|------------|---------|
-| Catálogo | Association Types | `tests/catalog/association_types` |
-|  | Attributes | `tests/catalog/attributes` |
-|  | Inventory | `tests/catalog/inventory` |
-|  | Options | `tests/catalog/options` |
-| Configuration | Tax Category | `tests/configuration/tax_categories` |
-| Customer | Group | `tests/customer/groups` |
-| Login | Autenticacion | `tests/login` |
-
-> **NOTA: Se puede combinar ambos parametros como marca y suite/submódulo**<br>Por ejemplo: **tests/catalog/inventory -m smoke**
-
----
 
 ## 📁 Estructura del proyecto (resumen)
 
@@ -284,22 +227,7 @@ Softsign/
 └── README.md               # Documentación del proyecto
 ```
 
----
 
-## 🧪 Objetivo del proyecto
-
-Este proyecto forma parte de un diplomado especializado en aseguramiento de calidad (QA), cuyo enfoque principal es:
-
-- Construir un framework de pruebas de servicios REST reutilizable
-- Aplicar técnicas de prueba funcional como:
-  - Particiones de equivalencia
-  - Análisis de valores límites
-  - Tablas de decisión
-  - Pruebas basadas en riesgos
-- Automatizar flujos comunes como login, consultas y validaciones de datos
-- Integrar herramientas como GitHub Actions y Allure para ejecución continua y despliegue de reporte
-
----
 
 ## 🤝 Contribuciones
 
