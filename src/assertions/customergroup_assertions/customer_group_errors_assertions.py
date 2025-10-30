@@ -237,3 +237,34 @@ class AssertionCustomerGroupErrors:
 
         pytest.fail(
             f"No se encontró error de código demasiado largo en la respuesta: status={getattr(response, 'status_code', 'unknown')}, body={getattr(response, 'text', '')}")
+
+    @staticmethod
+    def assert_name_null_error(response) -> None:
+        try:
+            data = response.json()
+        except Exception:
+            pytest.fail(
+                f"Respuesta no es JSON. Status: {getattr(response, 'status_code', 'unknown')} - {getattr(response, 'text', '')}")
+
+        # Para status 400, puede que la estructura sea diferente
+        if response.status_code == 400:
+            # Verificar si hay algún mensaje relacionado con null o invalid
+            response_text = getattr(response, 'text', '').lower()
+            if any(keyword in response_text for keyword in ["null", "invalid", "bad request"]):
+                return
+
+        if isinstance(data, dict):
+            violations = data.get("violations", [])
+            for violation in violations:
+                property_path = violation.get("propertyPath")
+                message = violation.get("message", "").lower()
+                if property_path == "name" and any(
+                        keyword in message for keyword in ["null", "not be null", "must not be null"]):
+                    return
+
+            detail = data.get("detail", "").lower()
+            if "name" in detail and any(keyword in detail for keyword in ["null", "not be null", "must not be null"]):
+                return
+
+        pytest.fail(
+            f"No se encontró error de nombre null en la respuesta: status={getattr(response, 'status_code', 'unknown')}, body={getattr(response, 'text', '')}")

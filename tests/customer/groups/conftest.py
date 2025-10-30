@@ -32,7 +32,17 @@ def setup_teardown_view_customer_group(auth_headers):
         print(f"Error al eliminar customer group {customer_group2_data['code']}: {e}")
 
 
-import pytest
+@pytest.fixture(scope="class")
+def setup_edit_customer_group(auth_headers):
+    payload_group = generate_customer_group_source_data()
+    customer_group_data = CustomerGroupCall().create(auth_headers, payload_group)
+
+    assert "code" in customer_group_data, f"La respuesta de creación no contiene 'code': {customer_group_data}"
+
+    yield auth_headers, customer_group_data
+
+    CustomerGroupCall().delete(auth_headers, customer_group_data["code"])
+
 
 @pytest.fixture(scope="function")
 def setup_add_customer_group(auth_headers):
