@@ -21,8 +21,8 @@ def setup_teardown_view_tax_rate(auth_headers):
     yield auth_headers, tax_rate1_data, tax_rate2_data
 
     # Cleanup - eliminar por ID
-    TaxRateCall.delete_by_id(auth_headers, tax_rate1_data['id'])
-    TaxRateCall.delete_by_id(auth_headers, tax_rate2_data['id'])
+    TaxRateCall.delete_by_code(auth_headers, tax_rate1_data['code'])
+    TaxRateCall.delete_by_code(auth_headers, tax_rate2_data['code'])
 
 
 @pytest.fixture(scope="function")
@@ -122,7 +122,7 @@ def setup_tax_rate_with_dependencies(auth_headers):
     yield auth_headers, tax_rate_data
 
     # Cleanup
-    TaxRateCall.delete_by_id(auth_headers, tax_rate_data["id"])
+    TaxRateCall.delete_by_id(auth_headers, tax_rate_data["code"])
 
 
 

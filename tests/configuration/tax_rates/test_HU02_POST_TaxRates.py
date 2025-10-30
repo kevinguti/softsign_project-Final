@@ -13,6 +13,7 @@ from src.services.client import SyliusClient
 
 
 @pytest.mark.smoke
+@pytest.mark.positive
 @pytest.mark.functional
 def test_TC193_Crear_tasa_impuesto_exitosamente(setup_add_tax_rate):
     headers, created_tax_rates = setup_add_tax_rate
