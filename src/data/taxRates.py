@@ -1,11 +1,12 @@
 from faker import Faker
 from uuid import uuid4
 import random
+from datetime import datetime, timedelta
 
 fake = Faker()
 
 
-def generate_tax_rate_data(required_only=False, available_zones=None, available_categories=None):
+def generate_tax_rate_data(required_only=False, available_zones=None, available_categories=None, include_dates=False):
     # Valores por defecto para zonas y categorías
     default_zone = "/api/v2/admin/zones/US"
     default_category = "/api/v2/admin/tax-categories/clothing"
@@ -32,9 +33,16 @@ def generate_tax_rate_data(required_only=False, available_zones=None, available_
         "category": category
     }
 
+    if include_dates:
+        # Generar fechas válidas (startDate antes de endDate)
+        start_date = datetime.now() + timedelta(days=random.randint(1, 30))
+        end_date = start_date + timedelta(days=random.randint(30, 365))
+
+        tax_rate_data["startDate"] = start_date.strftime("%Y-%m-%dT%H:%M:%S+00:00")
+        tax_rate_data["endDate"] = end_date.strftime("%Y-%m-%dT%H:%M:%S+00:00")
+
     if not required_only:
-        # Podrías añadir campos opcionales aquí si la API los soporta
-        # Por ejemplo: "startDate", "endDate", etc.
+        # Podrías añadir otros campos opcionales aquí si la API los soporta
         pass
 
     # Validaciones
@@ -50,7 +58,8 @@ def generate_tax_rate_data(required_only=False, available_zones=None, available_
 
 
 def create_tax_rate_data(code=None, name=None, amount=None, includedInPrice=None,
-                         calculator=None, zone=None, category=None):
+                         calculator=None, zone=None, category=None,
+                         startDate=None, endDate=None):
     """
     Crea un diccionario de Tax Rate con valores personalizados o aleatorios.
     """
@@ -64,6 +73,12 @@ def create_tax_rate_data(code=None, name=None, amount=None, includedInPrice=None
         "category": category or "/api/v2/admin/tax-categories/clothing"
     }
 
+
+    if startDate is not None:
+        tax_rate_data["startDate"] = startDate
+    if endDate is not None:
+        tax_rate_data["endDate"] = endDate
+
     # Convierte valores "null" en None
     tax_rate_data = {k: (None if v == "null" else v) for k, v in tax_rate_data.items()}
 
@@ -71,3 +86,32 @@ def create_tax_rate_data(code=None, name=None, amount=None, includedInPrice=None
     tax_rate_data = {k: v for k, v in tax_rate_data.items() if v is not None}
 
     return tax_rate_data
+
+
+def generate_tax_rate_update_data(name=None, amount=None, includedInPrice=None):
+    """Genera datos para actualizar un tax rate"""
+    data = {
+        "name": name if name is not None else f"Updated Tax Rate {random.randint(1000, 9999)}",
+        "amount": amount if amount is not None else round(random.uniform(0.05, 0.25), 2),
+        "includedInPrice": includedInPrice if includedInPrice is not None else random.choice([True, False]),
+        "calculator": "default"
+    }
+    return data
+
+def generate_tax_rate_name_update():
+    """Genera solo un nuevo nombre para actualización"""
+    return {
+        "name": f"Renamed Tax Rate {int(datetime.now().timestamp())}"
+    }
+
+def generate_tax_rate_amount_update():
+    """Genera solo un nuevo amount para actualización"""
+    return {
+        "amount": round(random.uniform(0.10, 0.20), 2)
+    }
+
+def generate_tax_rate_boolean_update():
+    """Genera solo un nuevo includedInPrice para actualización"""
+    return {
+        "includedInPrice": fake.boolean()
+    }

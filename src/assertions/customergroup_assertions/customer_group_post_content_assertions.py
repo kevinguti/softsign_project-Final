@@ -32,3 +32,12 @@ class AssertionCustomerGroupCreate:
 
         except AssertionError as e:
             pytest.fail(f"Error en el response de Customer Group: {e}")
+
+    @staticmethod
+    def assert_customer_group_update_response(original_data, update_payload, response_json):
+        assert response_json["code"] == original_data[
+            "code"], f"El código no debería cambiar. Esperado: {original_data['code']}, Obtenido: {response_json['code']}"
+        assert response_json["name"] == update_payload[
+            "name"], f"El nombre no se actualizó correctamente. Esperado: {update_payload['name']}, Obtenido: {response_json['name']}"
+        assert response_json["id"] == original_data[
+            "id"], f"El ID no debería cambiar. Esperado: {original_data['id']}, Obtenido: {response_json['id']}"

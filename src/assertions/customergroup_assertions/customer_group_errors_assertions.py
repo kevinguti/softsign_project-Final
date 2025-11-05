@@ -1,3 +1,7 @@
+import re
+import pytest
+from typing import Any, Dict, List, Optional
+
 class AssertionCustomerGroupErrors:
     """Assertions para errores de Customer Group en Sylius API."""
 
@@ -108,3 +112,159 @@ class AssertionCustomerGroupErrors:
         msg = AssertionCustomerGroupErrors._get_full_message(response_json)
         assert expected_message.lower() in msg, \
             f"El mensaje no indica error esperado. Mensaje: {msg}"
+
+    @staticmethod
+    def assert_duplicate_error(response) -> None:
+        try:
+            data = response.json()
+        except Exception:
+            pytest.fail(
+                f"Respuesta no es JSON. Status: {getattr(response, 'status_code', 'unknown')} - {getattr(response, 'text', '')}")
+
+        if isinstance(data, dict):
+            violations = data.get("violations", [])
+            for violation in violations:
+                property_path = violation.get("propertyPath")
+                message = violation.get("message", "")
+                if property_path == "code" and "unique" in message.lower():
+                    return
+
+            detail = data.get("detail", "")
+            if "code" in detail and "unique" in detail.lower():
+                return
+
+        pytest.fail(
+            f"No se encontró error de código duplicado en la respuesta: status={getattr(response, 'status_code', 'unknown')}, body={getattr(response, 'text', '')}")
+
+    @staticmethod
+    def assert_missing_code_error(response) -> None:
+        global data
+        try:
+            data = response.json()
+        except Exception:
+            pytest.fail(
+                f"Respuesta no es JSON. Status: {getattr(response, 'status_code', 'unknown')} - {getattr(response, 'text', '')}")
+
+        if isinstance(data, dict):
+            violations = data.get("violations", [])
+            for violation in violations:
+                property_path = violation.get("propertyPath")
+                message = violation.get("message", "").lower()
+                if property_path == "code" and any(keyword in message for keyword in
+                                                   ["enter", "required", "blank", "not be null", "missing", "empty"]):
+                    return
+
+            detail = data.get("detail", "").lower()
+            if "code" in detail and any(
+                    keyword in detail for keyword in ["enter", "required", "blank", "not be null", "missing", "empty"]):
+                return
+
+        pytest.fail(
+            f"No se encontró error de código faltante en la respuesta: status={getattr(response, 'status_code', 'unknown')}, body={getattr(response, 'text', '')}")
+
+
+    @staticmethod
+    def assert_missing_name_error(response) -> None:
+        try:
+            data = response.json()
+        except Exception:
+            pytest.fail(
+                f"Respuesta no es JSON. Status: {getattr(response, 'status_code', 'unknown')} - {getattr(response, 'text', '')}")
+
+        if isinstance(data, dict):
+            violations = data.get("violations", [])
+            for violation in violations:
+                property_path = violation.get("propertyPath")
+                message = violation.get("message", "").lower()
+                if property_path == "name" and any(keyword in message for keyword in
+                                                   ["enter", "required", "blank", "not be null", "missing", "empty"]):
+                    return
+
+            detail = data.get("detail", "").lower()
+            if "name" in detail and any(
+                    keyword in detail for keyword in ["enter", "required", "blank", "not be null", "missing", "empty"]):
+                return
+
+        pytest.fail(
+            f"No se encontró error de nombre faltante en la respuesta: status={getattr(response, 'status_code', 'unknown')}, body={getattr(response, 'text', '')}")
+
+    @staticmethod
+    def assert_name_too_long_error(response) -> None:
+        try:
+            data = response.json()
+        except Exception:
+            pytest.fail(
+                f"Respuesta no es JSON. Status: {getattr(response, 'status_code', 'unknown')} - {getattr(response, 'text', '')}")
+
+        if isinstance(data, dict):
+            violations = data.get("violations", [])
+            for violation in violations:
+                property_path = violation.get("propertyPath")
+                message = violation.get("message", "").lower()
+                if property_path == "name" and any(
+                        keyword in message for keyword in ["too long", "exceed", "maximum", "length", "255", "max"]):
+                    return
+
+            detail = data.get("detail", "").lower()
+            if "name" in detail and any(
+                    keyword in detail for keyword in ["too long", "exceed", "maximum", "length", "255", "max"]):
+                return
+
+        pytest.fail(
+            f"No se encontró error de nombre demasiado largo en la respuesta: status={getattr(response, 'status_code', 'unknown')}, body={getattr(response, 'text', '')}")
+
+    @staticmethod
+    def assert_code_too_long_error(response) -> None:
+        try:
+            data = response.json()
+        except Exception:
+            pytest.fail(
+                f"Respuesta no es JSON. Status: {getattr(response, 'status_code', 'unknown')} - {getattr(response, 'text', '')}")
+
+        if isinstance(data, dict):
+            violations = data.get("violations", [])
+            for violation in violations:
+                property_path = violation.get("propertyPath")
+                message = violation.get("message", "").lower()
+                if property_path == "code" and any(
+                        keyword in message for keyword in ["too long", "exceed", "maximum", "length", "255", "max"]):
+                    return
+
+            detail = data.get("detail", "").lower()
+            if "code" in detail and any(
+                    keyword in detail for keyword in ["too long", "exceed", "maximum", "length", "255", "max"]):
+                return
+
+        pytest.fail(
+            f"No se encontró error de código demasiado largo en la respuesta: status={getattr(response, 'status_code', 'unknown')}, body={getattr(response, 'text', '')}")
+
+    @staticmethod
+    def assert_name_null_error(response) -> None:
+        try:
+            data = response.json()
+        except Exception:
+            pytest.fail(
+                f"Respuesta no es JSON. Status: {getattr(response, 'status_code', 'unknown')} - {getattr(response, 'text', '')}")
+
+        # Para status 400, puede que la estructura sea diferente
+        if response.status_code == 400:
+            # Verificar si hay algún mensaje relacionado con null o invalid
+            response_text = getattr(response, 'text', '').lower()
+            if any(keyword in response_text for keyword in ["null", "invalid", "bad request"]):
+                return
+
+        if isinstance(data, dict):
+            violations = data.get("violations", [])
+            for violation in violations:
+                property_path = violation.get("propertyPath")
+                message = violation.get("message", "").lower()
+                if property_path == "name" and any(
+                        keyword in message for keyword in ["null", "not be null", "must not be null"]):
+                    return
+
+            detail = data.get("detail", "").lower()
+            if "name" in detail and any(keyword in detail for keyword in ["null", "not be null", "must not be null"]):
+                return
+
+        pytest.fail(
+            f"No se encontró error de nombre null en la respuesta: status={getattr(response, 'status_code', 'unknown')}, body={getattr(response, 'text', '')}")

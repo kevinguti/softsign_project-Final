@@ -17,18 +17,21 @@ class EndpointTaxRate:
         return base_url
 
     @staticmethod
-    def build_url_tax_rate(base, identifier):
-        return f"{BASE_URL}{base.format(id=identifier, code=identifier)}"
+    def build_url_by_id(base, tax_rate_id):
+        return f"{BASE_URL}{base.format(id=tax_rate_id)}"
+
+    @staticmethod
+    def build_url_by_code(base, tax_rate_code):
+        return f"{BASE_URL}{base.format(code=tax_rate_code)}"
 
     @classmethod
     def by_id(cls, tax_rate_id):
-        return cls.build_url_tax_rate(Endpoint.BASE_TAX_RATE_ID.value, tax_rate_id)
+        return cls.build_url_by_id(Endpoint.BASE_TAX_RATE_ID.value, tax_rate_id)
 
     @classmethod
     def by_code(cls, tax_rate_code):
-        return cls.build_url_tax_rate(Endpoint.BASE_TAX_RATE_CODE.value, tax_rate_code)
+        return cls.build_url_by_code(Endpoint.BASE_TAX_RATE_CODE.value, tax_rate_code)
 
-# NUEVA CLASE PARA ZONES
 class EndpointZone:
 
     @classmethod

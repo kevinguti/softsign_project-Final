@@ -1,0 +1,53 @@
+{
+  "type": "object",
+  "required": [
+    "@context",
+    "@type",
+    "status",
+    "detail"
+  ],
+  "properties": {
+    "@context": {
+      "type": "string"
+    },
+    "@id": {
+      "type": "string"
+    },
+    "@type": {
+      "type": "string"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["propertyPath", "message", "code"],
+        "properties": {
+          "propertyPath": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "detail": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "hydra:description": {
+      "type": "string"
+    },
+    "hydra:title": {
+      "type": "string"
+    }
+  }
+}

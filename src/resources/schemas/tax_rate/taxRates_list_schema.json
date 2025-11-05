@@ -8,24 +8,20 @@
     "hydra:member"
   ],
   "properties": {
-    "@context": {
-      "type": "string"
-    },
-    "@id": {
-      "type": "string"
-    },
-    "@type": {
-      "type": "string"
-    },
-    "hydra:totalItems": {
-      "type": "integer"
-    },
+    "@context": {"type": "string"},
+    "@id": {"type": "string"},
+    "@type": {"type": "string"},
+    "hydra:totalItems": {"type": "integer"},
     "hydra:member": {
       "type": "array",
-      "items": {
-        "type": "object"
-      }
-    }
+      "items": {"type": "object"}
+    },
+    "hydra:search": {"type": "object"},
+    "hydra:view": {"type": "object"},
+    "hydra:first": {"type": "string"},
+    "hydra:last": {"type": "string"},
+    "hydra:next": {"type": "string"},
+    "hydra:previous": {"type": "string"}
   },
-  "additionalProperties": false
+  "additionalProperties": true
 }

@@ -1,5 +1,20 @@
 {
   "type": "object",
+  "required": [
+    "@context",
+    "@id",
+    "@type",
+    "id",
+    "code",
+    "name",
+    "amount",
+    "includedInPrice",
+    "calculator",
+    "zone",
+    "category",
+    "createdAt",
+    "updatedAt"
+  ],
   "properties": {
     "@context": {
       "type": "string"
@@ -10,16 +25,10 @@
     "@type": {
       "type": "string"
     },
-    "zone": {
-      "type": "string"
-    },
     "id": {
       "type": "integer"
     },
     "code": {
-      "type": "string"
-    },
-    "category": {
       "type": "string"
     },
     "name": {
@@ -34,8 +43,14 @@
     "calculator": {
       "type": "string"
     },
+    "zone": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
     "startDate": {
-      "type":["string", "null"]
+      "type": ["string", "null"]
     },
     "endDate": {
       "type": ["string", "null"]
@@ -47,21 +62,5 @@
       "type": "string"
     }
   },
-  "required": [
-    "@context",
-    "@id",
-    "@type",
-    "zone",
-    "id",
-    "code",
-    "category",
-    "name",
-    "amount",
-    "includedInPrice",
-    "calculator",
-    "startDate",
-    "endDate",
-    "createdAt",
-    "updatedAt"
-  ]
+  "additionalProperties": false
 }

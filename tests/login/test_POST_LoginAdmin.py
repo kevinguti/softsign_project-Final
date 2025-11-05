@@ -8,11 +8,11 @@ from src.assertions.login_assertions import AssertionLogin
 from utils.logger_helpers import log_request_response
 
 
-#TC-55: Login > Admin - Autenticación exitosa usando email y contraseña válidos
+
 @pytest.mark.smoke
 @pytest.mark.functional
 @pytest.mark.high
-def test_TC55_Auth_exitoso_con_credenciales_validas():
+def test_TC01_Auth_exitoso_con_credenciales_validas():
     payload = Auth().get_valid_login_payload()
     url = Endpoint.login()
     response = SyliusRequest.post(url, payload=payload)
@@ -26,12 +26,12 @@ def test_TC55_Auth_exitoso_con_credenciales_validas():
     log_request_response(url, response, payload=payload)
 
 
-#TC-56: Login > Admin - Autenticación fallida con email y contraseña inválidos
+
 @pytest.mark.smoke
 @pytest.mark.negative
 @pytest.mark.functional
 @pytest.mark.high
-def test_TC56_Auth_fallido_con_credenciales_invalidas():
+def test_TC02_Auth_fallido_con_credenciales_invalidas():
     url = Endpoint.login()
     payload = Auth().get_invalid_login_payload()
     response = SyliusRequest.post(url, payload=payload)
@@ -44,11 +44,11 @@ def test_TC56_Auth_fallido_con_credenciales_invalidas():
     log_request_response(url, response, payload=payload)
 
 
-#TC-57: Login > Admin - Autenticación fallida con email inválido y contraseña válida
+
 @pytest.mark.negative
 @pytest.mark.functional
 @pytest.mark.high
-def test_TC57_Auth_fallido_con_email_invalida():
+def test_TC03_Auth_fallido_con_email_invalida():
     url = Endpoint.login()
     payload = Auth().get_invalid_email_payload()
     response = SyliusRequest.post(url, payload=payload)
@@ -61,11 +61,11 @@ def test_TC57_Auth_fallido_con_email_invalida():
     log_request_response(url, response, payload=payload)
 
 
-#TC-58: Login > Admin - Autenticación fallida con email válido y contraseña inválida
+
 @pytest.mark.negative
 @pytest.mark.functional
 @pytest.mark.high
-def test_TC58_Auth_fallido_con_password_invalida():
+def test_TC04_Auth_fallido_con_password_invalida():
     url = Endpoint.login()
     payload = Auth().get_invalid_password_payload()
     response = SyliusRequest.post(url, payload=payload)
@@ -78,11 +78,10 @@ def test_TC58_Auth_fallido_con_password_invalida():
     log_request_response(url, response, payload=payload)
 
 
-#TC-59: Login > Admin - Autenticación fallida con email y contraseña vacíos
 @pytest.mark.negative
 @pytest.mark.functional
 @pytest.mark.high
-def test_TC59_Auth_fallido_con_crendenciales_vacias():
+def test_TC05_Auth_fallido_con_crendenciales_vacias():
     url = Endpoint.login()
     payload = Auth().get_empty_credential_payload()
     response = SyliusRequest.post(url, payload=payload)
@@ -95,11 +94,11 @@ def test_TC59_Auth_fallido_con_crendenciales_vacias():
     log_request_response(url, response, payload=payload)
 
 
-#TC-151: Login > Admin - Autenticación fallida con email vacío y contraseña válida
+#Login > Admin - Autenticación fallida con email vacío y contraseña válida
 @pytest.mark.negative
 @pytest.mark.functional
 @pytest.mark.high
-def test_TC151_Auth_fallido_con_email_vacia():
+def test_TC06_Auth_fallido_con_email_vacia():
     url = Endpoint.login()
     payload = Auth().get_empty_email_payload()
     response = SyliusRequest.post(url, payload=payload)
@@ -112,11 +111,11 @@ def test_TC151_Auth_fallido_con_email_vacia():
     log_request_response(url, response, payload=payload)
 
 
-#TC-152: Login > Admin - Autenticación fallida con contraseña vacía y email válido
+#Login > Admin - Autenticación fallida con contraseña vacía y email válido
 @pytest.mark.negative
 @pytest.mark.functional
 @pytest.mark.high
-def test_TC152_Auth_fallido_con_password_vacia():
+def test_TC07_Auth_fallido_con_password_vacia():
     url = Endpoint.login()
     payload = Auth().get_empty_password_payload()
     response = SyliusRequest.post(url, payload=payload)
