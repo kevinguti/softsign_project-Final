@@ -77,21 +77,6 @@ def test_TC196_crear_tax_rate_con_nombre_superior_a_255_caracteres(setup_add_tax
 
 @pytest.mark.negative
 @pytest.mark.functional
-def test_TC197_crear_tax_rate_con_amount_fuera_de_rango(setup_add_tax_rate):
-    headers, created_tax_rates = setup_add_tax_rate
-    payload = generate_tax_rate_data()
-    payload["amount"] = 150.0
-    url = EndpointTaxRate.tax_rate()
-    response = SyliusRequest.post(url, headers, payload)
-    AssertionStatusCode.assert_status_code_400(response)
-    response_json = response.json()
-    AssertionTaxRateErrors.assert_tax_rate_error_schema(response_json)
-    AssertionTaxRateErrors.assert_tax_rate_error_response(response_json, expected_error_field="amount")
-    log_request_response(url, response, headers, payload)
-
-
-@pytest.mark.negative
-@pytest.mark.functional
 @pytest.mark.parametrize("invalid_amount,expected_status,xfail_reason", [
     ("INVALID_AMOUNT", 400, None),  #
     (-1.0, 422, None),

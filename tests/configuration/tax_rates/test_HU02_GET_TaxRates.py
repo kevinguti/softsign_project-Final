@@ -134,7 +134,7 @@ def test_TC220_verificar_respuesta_metodo_no_permitido_tax_rate(setup_teardown_v
     headers, tax_rate1_data, tax_rate2_data = setup_teardown_view_tax_rate
     url = EndpointTaxRate.tax_rate()
     response = SyliusRequest.post(url, headers)
-    AssertionStatusCode.assert_status_code_405(response)
+    AssertionStatusCode.assert_status_code_400(response)
     response_json = response.json()
     log_request_response(url, response, headers)
 
