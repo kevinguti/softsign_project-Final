@@ -1,0 +1,91 @@
+2025-11-07 21:58:15 - DEBUG - Starting new HTTPS connection (1): v2.demo.sylius.com:443
+2025-11-07 21:58:15 - DEBUG - https://v2.demo.sylius.com:443 "GET /api/v2/admin/customer-groups HTTP/1.1" 200 None
+2025-11-07 21:58:15 - INFO - IP ADDRESS OR DOMAIN: v2.demo.sylius.com
+2025-11-07 21:58:15 - DEBUG - REQUEST URL: https://v2.demo.sylius.com//api/v2/admin/customer-groups
+2025-11-07 21:58:15 - INFO - STATUS CODE: 200
+2025-11-07 21:58:15 - DEBUG - REQUEST HEADERS:
+{
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NjI1NTI2NDQsImV4cCI6MTc2MjU1NjI0NCwicm9sZXMiOlsiUk9MRV9BRE1JTklTVFJBVElPTl9BQ0NFU1MiLCJST0xFX0FQSV9BQ0NFU1MiXSwidXNlcm5hbWUiOiJhcGkifQ.YVgU9OQHhRsRijFbg_wqW8csWyuGIDjwyBK9Wgq2jh1yY_5HgBOzofT2B1MvZxUr8Kfmouw4dk_i5nAayEUEVt4AgwHppSRViqrQGyp7e0qWj2L-f0kO83sZIsUh036rWCGS78Ye6-0avOVCONojXx5Cj04ZATxasn4RRz2-1oK1HMtjy91Pmqop-Hu01ckCjeqyAw3Zawz5lr2LtkqdoemYoNQCzl1r0BbR3NfOVVtmg73xNXX7Kg0Oo37lR1sFOFBCyAisSppBF_Iqg_S7L0Jb8yFY8Soss2etU1xO3KeKqkCOysLyUo8F3Ec1OXvn9Wly3j9XPd5T3AGtaUpurR_tI7XEEhlM_5R2-gk49StYBoJndObqyvIc5GGAEDwtZ73SelPYgdgeHsvGDp-7C3s4foANtLnlqIVRlyEnjyweBT1f1Q9wZAUhhHCFISxk7D476Y3JshqmCSVuHGf6W_EByvKF7NGwG8sf1vMZ4grJJFeOPds1I_b4qG5Awj8NiuhHTHcyywMlvaYFTGhxjyc09Vmb8mFnEVhn3VX08Nme0FTWw7meWIYlNsXN5eZYgkjylJCnIarAu5Q3VatDlhsm9Zi2_1M-KYoz0CFC_rC8mwJ1x9uz7JI76vhlfx7zaGZbGECi9GQialdSaPE39t93jw37aPRROTY9Y3R7gp8"
+}
+2025-11-07 21:58:15 - DEBUG - RESPONSE:
+{
+    "@context": "/api/v2/contexts/CustomerGroup",
+    "@id": "/api/v2/admin/customer-groups",
+    "@type": "hydra:Collection",
+    "hydra:totalItems": 6,
+    "hydra:member": [
+        {
+            "@id": "/api/v2/admin/customer-groups/retail",
+            "@type": "CustomerGroup",
+            "id": 15860,
+            "code": "retail",
+            "name": "Retail"
+        },
+        {
+            "@id": "/api/v2/admin/customer-groups/wholesale",
+            "@type": "CustomerGroup",
+            "id": 15861,
+            "code": "wholesale",
+            "name": "Wholesale"
+        },
+        {
+            "@id": "/api/v2/admin/customer-groups/test_550920_be9c0332",
+            "@type": "CustomerGroup",
+            "id": 15887,
+            "code": "test_550920_be9c0332",
+            "name": "'; DROP TABLE"
+        },
+        {
+            "@id": "/api/v2/admin/customer-groups/test_550920_ff0f2e1e",
+            "@type": "CustomerGroup",
+            "id": 15888,
+            "code": "test_550920_ff0f2e1e",
+            "name": "<script>alert()</script>"
+        },
+        {
+            "@id": "/api/v2/admin/customer-groups/test_552694_87a18111",
+            "@type": "CustomerGroup",
+            "id": 15912,
+            "code": "test_552694_87a18111",
+            "name": "Burns Group - Right-sized eco-centric array"
+        },
+        {
+            "@id": "/api/v2/admin/customer-groups/test_552694_b0e32a17",
+            "@type": "CustomerGroup",
+            "id": 15913,
+            "code": "test_552694_b0e32a17",
+            "name": "Powers-Garza - De-engineered clear-thinking application"
+        }
+    ],
+    "hydra:search": {
+        "@type": "hydra:IriTemplate",
+        "hydra:template": "/api/v2/admin/customer-groups{?code,name,order[code],order[name]}",
+        "hydra:variableRepresentation": "BasicRepresentation",
+        "hydra:mapping": [
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "code",
+                "property": "code",
+                "required": false
+            },
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "name",
+                "property": "name",
+                "required": false
+            },
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "order[code]",
+                "property": "code",
+                "required": false
+            },
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "order[name]",
+                "property": "name",
+                "required": false
+            }
+        ]
+    }
+}

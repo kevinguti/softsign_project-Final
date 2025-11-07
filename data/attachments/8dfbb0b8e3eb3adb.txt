@@ -1,0 +1,1 @@
+Cleanup: Customer group eliminado: test_552689_dbeef7a1
