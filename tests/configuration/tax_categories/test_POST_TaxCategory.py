@@ -11,14 +11,11 @@ from utils.logger_helpers import log_request_response
 from src.resources.call_request.taxCategory_call import TaxCategoryCall
 from src.services.client import SyliusClient
 
-"""
-TC60 - Crear categoría de impuesto exitosamente: La API debe permitir crear una categoría de impuesto
-cuando se envían datos válidos. Esperado: HTTP 201 Created y estructura JSON correcta.
-"""
-@pytest.mark.high
+
+@pytest.mark.positive
 @pytest.mark.smoke
 @pytest.mark.functional
-def test_TC60_Crear_categoria_impuesto_exitosamente(setup_add_tax_category):
+def test_TC15_Crear_categoria_impuesto_exitosamente(setup_add_tax_category):
     headers, created_tax_categories = setup_add_tax_category
     payload = generate_tax_category_data()
     url = EndpointTaxCategory.tax_category()
@@ -33,15 +30,11 @@ def test_TC60_Crear_categoria_impuesto_exitosamente(setup_add_tax_category):
     created_tax_categories.append(response_json)
 
 
-"""
-TC62 - Negativo: El sistema no debe permitir crear dos categorías con el mismo código.
-Esperado: status 422 y detalle del error en 'violations'.
-"""
-@pytest.mark.high
+
 @pytest.mark.functional
 @pytest.mark.negative
 @pytest.mark.smoke
-def test_TC62_error_por_codigo_duplicado(setup_add_tax_category):
+def test_TC17_error_por_codigo_duplicado(setup_add_tax_category):
     headers, created_tax_categories = setup_add_tax_category
     payload = generate_tax_category_data()
     AssertionTaxCategory.assert_tax_category_input_schema(payload)
@@ -58,14 +51,10 @@ def test_TC62_error_por_codigo_duplicado(setup_add_tax_category):
     AssertionTaxCategoryErrors.assert_duplicate_code_error(response_2.json())
 
 
-"""
-TC150 - Negativo: No debe permitir crear una categoría con token inválido (401 Unauthorized).
-"""
-@pytest.mark.high
+
 @pytest.mark.functional
 @pytest.mark.negative
-@pytest.mark.smoke
-def test_TC150_creacion_con_token_invalido(setup_add_tax_category):
+def test_TC24_creacion_con_token_invalido(setup_add_tax_category):
     payload = generate_tax_category_data()
     invalid_headers = {"Authorization": "Bearer invalid_token"}
     AssertionTaxCategory.assert_tax_category_input_schema(payload)
@@ -76,14 +65,10 @@ def test_TC150_creacion_con_token_invalido(setup_add_tax_category):
     AssertionTaxCategoryErrors.assert_invalid_token_error(response.json())
 
 
-"""
-TC68 - Negativo: El sistema debe rechazar la creación de categoría si no se proporciona token de autenticación (HTTP 401).
-"""
-@pytest.mark.high
+
 @pytest.mark.functional
 @pytest.mark.negative
-@pytest.mark.smoke
-def test_TC68_creacion_sin_autenticacion(setup_add_tax_category):
+def test_TC23_creacion_sin_autenticacion(setup_add_tax_category):
     data = generate_tax_category_data()
     empty_headers = {}
     response = TaxCategoryCall.create(empty_headers, data)
@@ -91,14 +76,11 @@ def test_TC68_creacion_sin_autenticacion(setup_add_tax_category):
     AssertionStatusCode.assert_status_code_401(response)
 
 
-"""
-TC63 - Validación de encabezados: La respuesta al crear una categoría de impuesto debe incluir 
-el encabezado 'Content-Type' y su valor debe comenzar con 'application/ld+json'.
-"""
-@pytest.mark.medium
+
+
 @pytest.mark.functional
 @pytest.mark.smoke
-def test_TC63_verificar_encabezados_respuesta(setup_add_tax_category):
+def test_TC18_verificar_encabezados_respuesta(setup_add_tax_category):
     headers, created_tax_categories = setup_add_tax_category
     data = generate_tax_category_data()
     response = TaxCategoryCall.create(headers, data)
@@ -110,15 +92,11 @@ def test_TC63_verificar_encabezados_respuesta(setup_add_tax_category):
 
 
 
-""""
-TC-64: Este caso de prueba valida que los campos principales devueltos por la API al crear una categoría de impuesto (code, name, description)
-tengan el tipo de dato correcto. Se espera que todos los campos sean cadenas de texto (string) 
-según la especificación del esquema de respuesta.
-"""
-@pytest.mark.medium
+
+
 @pytest.mark.functional
-@pytest.mark.smoke
-def test_TC64_verificar_formato_y_tipos_datos_en_respuesta(setup_add_tax_category):
+@pytest.mark.positive
+def test_TC19_verificar_formato_y_tipos_datos_en_respuesta(setup_add_tax_category):
     headers, created_tax_categories = setup_add_tax_category
     data = generate_tax_category_data()
     response = TaxCategoryCall.create(headers, data)
@@ -132,14 +110,9 @@ def test_TC64_verificar_formato_y_tipos_datos_en_respuesta(setup_add_tax_categor
 
 
 
-"""
-TC65 - Negativo: No debe permitirse crear una categoría de impuesto con un código que exceda el límite máximo de longitud.
-"""
-@pytest.mark.medium
+@pytest.mark.negative
 @pytest.mark.functional
-@pytest.mark.smoke
-@pytest.mark.domain
-def test_TC65_validar_limite_longitud_code(auth_headers):
+def test_TC20_validar_limite_longitud_code(auth_headers):
     data = generate_tax_category_data()
     data["code"] = "A" * 256
     response = TaxCategoryCall.create(auth_headers, data)
@@ -148,14 +121,10 @@ def test_TC65_validar_limite_longitud_code(auth_headers):
 
 
 
-"""
-TC66 - Negativo: Validar que el sistema rechaza la creación de una categoría de impuesto
-cuando el campo 'code' contiene caracteres especiales no permitidos como '@', '#', '%'.
-"""
-@pytest.mark.medium
+
+@pytest.mark.negative
 @pytest.mark.functional
-@pytest.mark.smoke
-def test_TC66_validar_caracteres_especiales_en_code(auth_headers):
+def test_TC21_validar_caracteres_especiales_en_code(auth_headers):
     data = generate_tax_category_data()
     data["code"] = "ABC@#%"
     response = TaxCategoryCall.create(auth_headers, data)
