@@ -46,13 +46,10 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Build test report
-        uses: allure-framework/allure2-action@v1
-        if: always()
-        with:
-          results: reports/allure-results
-          history: allure-history
-          output: allure-report
+      - name: Generate Allure report manually
+        run: |
+          pip install allure-cli
+          allure generate reports/allure-results -o allure-report --clean
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
