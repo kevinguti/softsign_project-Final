@@ -27,7 +27,7 @@ def test_TC153_crear_grupo_clientes_datos_validos(setup_add_customer_group):
     AssertionCustomerGroupCreate.assert_customer_group_response(payload, response_json)
     created_customer_groups.append(response_json)
 
-# Admin > Customer - Group > TC_154 Verificar estructura del JSON devuelto al crear
+
 @pytest.mark.functional
 @pytest.mark.positive
 @pytest.mark.smoke
