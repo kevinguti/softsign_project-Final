@@ -1,0 +1,24 @@
+from src.routes.endpoint_tax_category import EndpointTaxCategory
+from src.routes.request import SyliusRequest
+
+class TaxCategoryCall:
+    @classmethod
+    def view(cls, headers, tax_category_code):
+        response = SyliusRequest().get(EndpointTaxCategory.code(tax_category_code), headers)
+        return response
+
+    @classmethod
+    def create(cls, headers, payload):
+        response = SyliusRequest().post(EndpointTaxCategory.tax_category(), headers, payload)
+        return response
+
+    @classmethod
+    def update(cls, headers, payload, tax_category_code):
+        response = SyliusRequest().put(EndpointTaxCategory.code(tax_category_code), headers, payload)
+        return response
+
+    @classmethod
+    def delete(cls, headers, tax_category_code):
+        response = SyliusRequest().delete(EndpointTaxCategory.code(tax_category_code), headers)
+        return response
+
