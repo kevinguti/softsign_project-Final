@@ -1,9 +1,6 @@
 name: CI - Run API Tests
 
 on:
-  #push:
-  #  branches:
-  #    - development
   workflow_dispatch:
     inputs:
       marker:
@@ -18,6 +15,8 @@ jobs:
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -39,7 +38,6 @@ jobs:
         run: |
           pytest --disable-warnings -v ${{ github.event.inputs.marker }} --alluredir=reports/allure-results
 
-      # Cargar historial de reportes anteriores (para mantener histórico en Allure)
       - name: Load test report history
         uses: actions/checkout@v4
         if: always()
@@ -48,7 +46,6 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      # Generar reporte HTML usando la acción oficial de Allure
       - name: Build test report
         uses: allure-framework/allure2-action@v1
         if: always()
@@ -57,7 +54,6 @@ jobs:
           history: allure-history
           output: allure-report
 
-      # Publicar en GitHub Pages
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
         if: always()
