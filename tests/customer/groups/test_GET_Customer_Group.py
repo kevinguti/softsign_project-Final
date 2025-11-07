@@ -19,7 +19,7 @@ def test_TC130_obtener_lista_grupos_clientes_exitoso(setup_teardown_view_custome
     response = SyliusRequest.get(url, headers)
     AssertionStatusCode.assert_status_code_200(response)
     response_json = response.json()
-    AssertionCustomerGroup.assert_customer_group_list_schema(response_json)
+    AssertionCustomerGroup.assert_customer_group_collection_schema(response_json)
     expected_codes = [group1_data["code"], group2_data["code"]]
     AssertionCustomerGroupFields.assert_customer_group_list_content(response_json, expected_count=None, expected_codes=expected_codes)
     AssertionCustomerGroupFields.assert_customer_group_pagination(response_json)

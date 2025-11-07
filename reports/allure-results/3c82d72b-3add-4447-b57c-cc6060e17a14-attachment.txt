@@ -1,0 +1,14 @@
+2025-11-07 14:09:59 - [35mDEBUG[0m - Starting new HTTPS connection (1): v2.demo.sylius.com:443
+2025-11-07 14:10:00 - [35mDEBUG[0m - https://v2.demo.sylius.com:443 "POST /api/v2/admin/administrators/token HTTP/1.1" 200 None
+2025-11-07 14:10:00 - [35mDEBUG[0m - Starting new HTTPS connection (1): v2.demo.sylius.com:443
+2025-11-07 14:10:01 - [35mDEBUG[0m - https://v2.demo.sylius.com:443 "POST /api/v2/admin/tax-categories HTTP/1.1" 201 None
+2025-11-07 14:10:01 - [35mDEBUG[0m - Starting new HTTPS connection (1): v2.demo.sylius.com:443
+2025-11-07 14:10:01 - [35mDEBUG[0m - https://v2.demo.sylius.com:443 "DELETE /api/v2/admin/tax-categories/TAX-90d382 HTTP/1.1" 204 0
+2025-11-07 14:10:01 - [32mINFO[0m - IP ADDRESS OR DOMAIN: v2.demo.sylius.com
+2025-11-07 14:10:01 - [35mDEBUG[0m - REQUEST URL: https://v2.demo.sylius.com//api/v2/admin/tax-categories/TAX-90d382
+2025-11-07 14:10:01 - [32mINFO[0m - STATUS CODE: 204
+2025-11-07 14:10:01 - [35mDEBUG[0m - REQUEST HEADERS:
+{
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NjI1MzkwMDAsImV4cCI6MTc2MjU0MjYwMCwicm9sZXMiOlsiUk9MRV9BRE1JTklTVFJBVElPTl9BQ0NFU1MiLCJST0xFX0FQSV9BQ0NFU1MiXSwidXNlcm5hbWUiOiJhcGkifQ.dFSSguFVrW650RC6PB1ZcLDO7y9TSpU6m1ZmfHxWlAABMli7Iz5LIYadYILdFuHPdou7IwvwC7eC8309mUJoOl_r51bYO-D7Obm12Dz4koitGBLs_dAz_KUHZJgX9AZAc6MKqpBVYUpMGBQy8ua-UxpbZMqGCsPpcqJD6xahqkPSAbD3pBR5LrVYe_bUS15jXPWh4duLGe_tJcXxyxOw7GKBtGPdULN_TRZTsiT1wJRkY9lJwU6KnUr0wnGQaPsnCMRgiZ7zayTyB6P2yJ7F5ou9vVq3iISY7ljjS93NqWQjCHrXAK0dnKtRsN1RinlsuWn9ZQH16mrMRYmxX--2tMWfoCt-ti2dhoK09LsA4CR2uJUZlpgjxWImmH0wfmnp6JyauuDT0FWDs9DIPLsA8tmUkeG6QwyP4PqQeocHWEMUR4zR_oZr6O_fZ4P54ruK13_IPEWgSIxIQ6f7OzljY7KOByUFOTUwmTTgWc3vwcCyjgeCdsaB6R8MO0i_KC-3SdXaKXNs1nAo9EzXmeuJcjUPWPlWbj0PLyFRMLQmoQCjeLZAOi76XLgI1bDycAav27fB_zVnHl3uVmJOLQrHSyAZyfw5HabtwrJfWxae-eYLNYkEVtWvSyX10jSpGBaQ_tgvF35p0lswFr2rG7N1-61R_E33mpIkcPEAmij-7Uk"
+}
+2025-11-07 14:10:01 - [35mDEBUG[0m - RESPONSE: No content (empty body)

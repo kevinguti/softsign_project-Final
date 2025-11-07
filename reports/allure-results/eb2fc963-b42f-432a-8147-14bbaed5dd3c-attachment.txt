@@ -1,0 +1,1 @@
+Cleanup: Customer group eliminado: test_539184_927fc97c

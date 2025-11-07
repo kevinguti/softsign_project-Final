@@ -1,0 +1,1 @@
+{"uuid": "3e384a9c-c730-4e0b-87b7-877f3c351699", "children": ["49e7328c-1c04-453f-8de3-27e7e5e951b9"], "befores": [{"name": "setup_add_tax_rate", "status": "passed", "start": 1762539118563, "stop": 1762539118563}], "afters": [{"name": "setup_add_tax_rate::0", "status": "passed", "start": 1762539119150, "stop": 1762539119151}], "start": 1762539118563, "stop": 1762539119151}
