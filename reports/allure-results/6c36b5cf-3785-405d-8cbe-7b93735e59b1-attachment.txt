@@ -1,2 +1,0 @@
-
-Testing amount: -1.0 -> Expected: 422, Got: 422

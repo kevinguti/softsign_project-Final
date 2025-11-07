@@ -1,1 +1,0 @@
-Cleanup: Customer group eliminado: test_539171_b4bc0162
