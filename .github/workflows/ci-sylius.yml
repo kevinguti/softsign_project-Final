@@ -46,15 +46,18 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Generate Allure report manually
+      - name: Install Allure CLI
         run: |
-          pip install allure-cli
+          npm install -g allure-commandline
+
+      - name: Generate Allure report
+        run: |
           allure generate reports/allure-results -o allure-report --clean
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_PAGES_TOKEN }}  
           publish_branch: gh-pages
           publish_dir: allure-report
