@@ -210,4 +210,6 @@ __marimo__/
 .DS_Store
 
 #Los reportes no se guardaran en el repositorio, irán directo en los artefactos directamente al ejecutar los pipelines CI de Github Actions
-#/reports/
+# Reportes
+allure-results/
+reports/
