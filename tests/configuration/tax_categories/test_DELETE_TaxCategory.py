@@ -28,7 +28,7 @@ def test_TC75_eliminar_TaxCategory(auth_headers):
 
 
 #TC76 Admin > Configuration > Tax Categories  – Validar error al eliminar categoría inexistente
-@pytest.mark.high
+@pytest.mark.negative
 @pytest.mark.functional
 def test_TC76_eliminar_TaxCategories_inexistente(auth_headers):
     fake_code = "Tax_no_existe-234+"
@@ -40,9 +40,8 @@ def test_TC76_eliminar_TaxCategories_inexistente(auth_headers):
 
 
 #TC80 Admin > Configuration > Tax Categories – Validar rechazo al eliminar con token inválido o sin permisos
-@pytest.mark.high
+@pytest.mark.functional
 @pytest.mark.negative
-@pytest.mark.security
 def test_TC80_eliminar_TaxCategory_sin_token():
     fake_code = "no existe"
     endpoint = EndpointTaxCategory.code(fake_code)
@@ -54,7 +53,7 @@ def test_TC80_eliminar_TaxCategory_sin_token():
 
 #TC78 Admin > Configuration > Tax Categories – Validar respuesta sin cuerpo en eliminación exitosa
 @pytest.mark.functional
-@pytest.mark.medium
+@pytest.mark.positive
 def test_TC78_eliminar_TaxCategory_respuesta_sin_cuerpo(auth_headers):
     initial_data = generate_tax_category_data()
     create_endpoint = EndpointTaxCategory.tax_category()
@@ -74,7 +73,7 @@ def test_TC78_eliminar_TaxCategory_respuesta_sin_cuerpo(auth_headers):
 
 #TC79 Admin > Configuration > Tax Category - Validar requerimiento de autenticación para eliminar categoría
 @pytest.mark.functional
-@pytest.mark.high
+@pytest.mark.negative
 def test_TC79_requerimiento_autenticacion_eliminar_TaxCategory():
     fake_code = "TAX-AUTH-REQ-12345"
     invalid_headers = {"AUTHORIZATION": "Bearer TOKEN_invalido"}
@@ -88,8 +87,7 @@ def test_TC79_requerimiento_autenticacion_eliminar_TaxCategory():
 
 #TC337 Admin > Configuration - Tax Category - Verificar que el tiempo de respuesta al eliminar sea menor a 3 segundos
 @pytest.mark.functional
-@pytest.mark.performance
-@pytest.mark.medium
+@pytest.mark.negative
 def test__TC337_eliminar_CustomerGroup_tiempo_respuesta(auth_headers):
 
     initial_data = generate_tax_category_data()
@@ -113,7 +111,7 @@ def test__TC337_eliminar_CustomerGroup_tiempo_respuesta(auth_headers):
 
 #TC338 Admin > Configuration > Tax Category -  Verificar headers de respuesta al eliminar
 @pytest.mark.functional
-@pytest.mark.medium
+@pytest.mark.positive
 def test_TC338_eliminar_TaxCategory_headers_respuesta(auth_headers):
     # Crear una tax category para eliminar
     data = generate_tax_category_data()
@@ -130,7 +128,7 @@ def test_TC338_eliminar_TaxCategory_headers_respuesta(auth_headers):
 
 #TC339 Admin > Configuration > Tax Category -  Verificar que el grupo eliminado no exista más
 @pytest.mark.functional
-@pytest.mark.high
+@pytest.mark.positive
 def test_TC339_eliminar_TaxCategory_verificar_no_existe(auth_headers):
     initial_data = generate_tax_category_data()
     create_endpoint = EndpointTaxCategory.tax_category()
@@ -148,7 +146,7 @@ def test_TC339_eliminar_TaxCategory_verificar_no_existe(auth_headers):
 
 #TC340 Admin > Configuration > Tax Category - Verificar que no permita eliminar la misma categoría dos veces
 @pytest.mark.functional
-@pytest.mark.medium
+@pytest.mark.negative
 def test_TC340_eliminar_TaxCategory_doble_eliminacion(auth_headers):
     initial_data = generate_tax_category_data()
     create_endpoint = EndpointTaxCategory.tax_category()
@@ -168,7 +166,7 @@ def test_TC340_eliminar_TaxCategory_doble_eliminacion(auth_headers):
 
 #TC341 Admin > Configuration > Tax Category - Verificar eliminación de múltiples grupos secuencialmente
 @pytest.mark.functional
-@pytest.mark.high
+@pytest.mark.positive
 def test_TC341_eliminar_multiples_TaxCategory_secuencialmente(auth_headers):
     tax_categories = []
     # Crear 3 categorías con nombres personalizados
@@ -198,7 +196,7 @@ def test_TC341_eliminar_multiples_TaxCategory_secuencialmente(auth_headers):
 
 # Admin > Configuration > Tax Category -  Verificar eliminación concurrente de la misma categoría
 @pytest.mark.functional
-@pytest.mark.medium
+@pytest.mark.negative
 def test_TC342_eliminar_TaxCategory_concurrente(auth_headers):
 
     initial_data = generate_tax_category_data()
@@ -232,7 +230,7 @@ def test_TC342_eliminar_TaxCategory_concurrente(auth_headers):
 
 # Admin > Configuration > Tax Category - TC_10 Verificar que la eliminación de un tax category no impacta otros existentes
 @pytest.mark.functional
-@pytest.mark.high
+@pytest.mark.negative
 def test_TC343_eliminar_TaxCategory_no_impacta_otros(setup_add_tax_category, auth_headers):
     headers, created_tax_categories = setup_add_tax_category
     data_1 = generate_tax_category_data()

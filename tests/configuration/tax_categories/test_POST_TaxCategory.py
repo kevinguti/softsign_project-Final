@@ -80,6 +80,7 @@ def test_TC23_creacion_sin_autenticacion(setup_add_tax_category):
 
 @pytest.mark.functional
 @pytest.mark.smoke
+@pytest.mark.positive
 def test_TC18_verificar_encabezados_respuesta(setup_add_tax_category):
     headers, created_tax_categories = setup_add_tax_category
     data = generate_tax_category_data()
@@ -136,10 +137,9 @@ def test_TC21_validar_caracteres_especiales_en_code(auth_headers):
 TC67 - Validar que el sistema permite la creación de una categoría de impuesto
 con el campo 'description' vacío.
 """
-@pytest.mark.medium
+@pytest.mark.positive
 @pytest.mark.functional
 @pytest.mark.smoke
-@pytest.mark.domain
 def test_TC67_description_vacio(auth_headers):
     data = generate_tax_category_data()
     data["description"] = ""
@@ -152,10 +152,8 @@ def test_TC67_description_vacio(auth_headers):
 TC221 - Negativo: Validar que el sistema rechaza la creación de una categoría de impuesto
 si se omite el campo obligatorio 'name'.
 """
-@pytest.mark.high
 @pytest.mark.functional
 @pytest.mark.negative
-@pytest.mark.smoke
 def test_TC221_creacion_sin_nombre_categoria(auth_headers):
     data = generate_tax_category_data()
     data.pop("name", None)
@@ -168,11 +166,8 @@ def test_TC221_creacion_sin_nombre_categoria(auth_headers):
 """
 No debe permitir crear una categoría con nombre menor a 2 caracteres (Sylius debe responder 422).
 """
-@pytest.mark.medium
 @pytest.mark.functional
-@pytest.mark.smoke
 @pytest.mark.negative
-@pytest.mark.domain
 @pytest.mark.parametrize("invalid_name", [
     "",    # vacío
     "A",   # un solo carácter
@@ -192,9 +187,7 @@ def test_TC255_tax_category_nombre_minimo_length(setup_add_tax_category, invalid
 TC-220 No debe permitir crear una categoría de impuesto con un nombre mayor a 255 caracteres.
 Sylius debe responder con un código de estado HTTP 422.
 """
-@pytest.mark.medium
 @pytest.mark.functional
-@pytest.mark.smoke
 @pytest.mark.negative
 def test_TC220_tax_category_nombre_exedente_maximo_length(setup_add_tax_category):
     auth_headers, created_tax_categories = setup_add_tax_category
@@ -213,10 +206,7 @@ No debe permitir crear una categoría de impuesto si el nombre solo contiene
 espacios en blanco, saltos de línea u otros caracteres invisibles. Sylius debe responder con 422.
 """
 @pytest.mark.functional
-@pytest.mark.smoke
-@pytest.mark.high
 @pytest.mark.negative
-@pytest.mark.domain
 @pytest.mark.xfail(reason="known issue La app permite espacios vacios BUG", run=True)
 @pytest.mark.parametrize("invalid_name", [
     "   ",
@@ -242,9 +232,7 @@ def test_TC221_tax_category_nombre_espacio_en_blanco(setup_add_tax_category, inv
 
 
 #TC 418 Admin > Configuration > Tax category - Crear Tax Category sin code
-@pytest.mark.high
 @pytest.mark.functional
-@pytest.mark.smoke
 @pytest.mark.negative
 def test_TC418_crear_tax_category_sin_code(auth_headers):
     data = generate_tax_category_data()

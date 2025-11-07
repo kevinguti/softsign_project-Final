@@ -8,12 +8,12 @@
 
 ---
 
-# Grupo: SoftSign  
+# SoftSign  
 **Estudiante:**
-- Kevin Gutierrez Orellana [![GitHub](https://img.shields.io/badge/GitHub-Elv500-blue?logo=github)](https://github.com/Elv500)
+- Kevin Gutierrez Orellana [![GitHub](https://img.shields.io/badge/GitHub-kevinguti-blue?logo=github)](https://github.com/kevinguti)
 
 
-**Docente:** Espinoza Rina
+**Docente:** Patricia Erika Rodriguez Bilbao
 
 **Ubicación:** Cochabamba - Bolivia
 

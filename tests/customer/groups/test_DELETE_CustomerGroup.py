@@ -43,7 +43,7 @@ def test_TC294_eliminar_grupo_codigo_inexistente(auth_headers):
 
 # Admin > Customer - Group > Verificar que no permita eliminar grupo con token inválido
 @pytest.mark.negative
-@pytest.mark.security
+@pytest.mark.functional
 def test_TC296_eliminar_grupo_token_invalido():
     codigo_existente = "retail"
     invalid_headers = {"Authorization": "Bearer token_invalido"}
@@ -55,7 +55,7 @@ def test_TC296_eliminar_grupo_token_invalido():
 
 # Admin > Customer - Group > Verificar headers de respuesta al eliminar
 @pytest.mark.functional
-@pytest.mark.low
+@pytest.mark.positive
 def test_TC298_verificar_headers_respuesta_eliminacion(auth_headers):
     initial_data = generate_customer_group_source_data()
     create_endpoint = EndpointCustomerGroup.customer_group()
@@ -72,7 +72,7 @@ def test_TC298_verificar_headers_respuesta_eliminacion(auth_headers):
 
 # Admin > Customer - Group > Verificar que el grupo eliminado no exista más
 @pytest.mark.functional
-@pytest.mark.high
+@pytest.mark.positive
 def test_TC299_verificar_grupo_eliminado_no_existe(setup_delete_customer_group):
     headers, customer_group_data = setup_delete_customer_group
     customer_group_code = customer_group_data["code"]
