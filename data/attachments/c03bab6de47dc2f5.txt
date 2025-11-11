@@ -1,1 +1,0 @@
-Cleanup: Customer group eliminado: test_822687_fa30fa00
