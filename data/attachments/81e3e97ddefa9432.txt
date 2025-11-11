@@ -1,0 +1,19 @@
+2025-11-11 01:16:18 - DEBUG - Starting new HTTPS connection (1): v2.demo.sylius.com:443
+2025-11-11 01:16:18 - DEBUG - https://v2.demo.sylius.com:443 "POST /api/v2/admin/customer-groups HTTP/1.1" 201 None
+2025-11-11 01:16:18 - DEBUG - Starting new HTTPS connection (1): v2.demo.sylius.com:443
+2025-11-11 01:16:19 - DEBUG - https://v2.demo.sylius.com:443 "PUT /api/v2/admin/customer-groups/test_823778_30884985 HTTP/1.1" 401 None
+2025-11-11 01:16:19 - INFO - IP ADDRESS OR DOMAIN: v2.demo.sylius.com
+2025-11-11 01:16:19 - DEBUG - REQUEST URL: https://v2.demo.sylius.com//api/v2/admin/customer-groups/test_823778_30884985
+2025-11-11 01:16:19 - INFO - STATUS CODE: 401
+2025-11-11 01:16:19 - DEBUG - PAYLOAD REQUEST:
+{
+    "code": "test_823778_261630e7",
+    "name": "Carpenter Ltd - Re-contextualized motivating architecture"
+}
+2025-11-11 01:16:19 - DEBUG - RESPONSE:
+{
+    "code": 401,
+    "message": "JWT Token not found"
+}
+2025-11-11 01:16:19 - DEBUG - Starting new HTTPS connection (1): v2.demo.sylius.com:443
+2025-11-11 01:16:19 - DEBUG - https://v2.demo.sylius.com:443 "DELETE /api/v2/admin/customer-groups/test_823778_30884985 HTTP/1.1" 204 0

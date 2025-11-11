@@ -1,0 +1,96 @@
+2025-11-11 01:15:22 - DEBUG - Starting new HTTPS connection (1): v2.demo.sylius.com:443
+2025-11-11 01:15:22 - DEBUG - https://v2.demo.sylius.com:443 "GET /api/v2/admin/tax-rates?page=1&itemsPerPage=1 HTTP/1.1" 200 None
+2025-11-11 01:15:22 - INFO - IP ADDRESS OR DOMAIN: v2.demo.sylius.com
+2025-11-11 01:15:22 - DEBUG - REQUEST URL: https://v2.demo.sylius.com//api/v2/admin/tax-rates
+2025-11-11 01:15:22 - INFO - STATUS CODE: 200
+2025-11-11 01:15:22 - DEBUG - REQUEST HEADERS:
+{
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NjI4MjM2NzQsImV4cCI6MTc2MjgyNzI3NCwicm9sZXMiOlsiUk9MRV9BRE1JTklTVFJBVElPTl9BQ0NFU1MiLCJST0xFX0FQSV9BQ0NFU1MiXSwidXNlcm5hbWUiOiJhcGkifQ.AiLlOk5KfI47RZ85raS8PFbsO-mVx6xXgmacLWhpew8I7nNXPuhxtJZ_VJw3MvMJdfWtHkEienkuiEhRjAhayHY_676SqdyeHG6jSmMbJN5G2yMbTTSKDT2hCyVVOjunpRiEeGWZHSZnU83yTMrBXEvnUlsL9eziXS1yVIenA793FOnL5PtNWu3xQDrj17-eOs8ZDdi4LFFztdowjsVcZJF7b8QSHGZ0iwTII_MkbLKFCyQmIsO3iSP4YWud_3iiTf9zSzGXtiw-BNOPqWjNgwDxpBAQ0Il5Pc_oNCe6jDhGm-qgHqM8w7UTgyIOxujrRMNqBfBOBcCRWCMQi1PmzG59LvWnPJJfsY00siGPoZieqdeH0j7v0Ymv0Zv1YzUkk9rQwrmlEHOJVNpX_5pqQMOdlIi-FtWmQ5O2fBxG5oh1tZ1fx09eVpZJgqMITF16Po8olIQBGobC5UG4bIC1YL2GpOr9fwsAUsx-EWhl9l4vMomF0d0mJsS2uD8jw7aD0QCPRob5CSqKuWRX_W8GtdTaR2FwfA7xkXHlLCCe4_VkEJ9hb4AdhavcOen-TQQMtr5llvctiNqx2Hopzprl0QZVc6Dh4uDryU1VbrbnDFRYQyhIO3vSdF6eNRINbvwbRFVFSSDlnz_4AZcDQ7KdyG2T61jYKW2icc1s_X72Tgk"
+}
+2025-11-11 01:15:22 - DEBUG - RESPONSE:
+{
+    "@context": "/api/v2/contexts/TaxRate",
+    "@id": "/api/v2/admin/tax-rates",
+    "@type": "hydra:Collection",
+    "hydra:totalItems": 4,
+    "hydra:member": [
+        {
+            "@id": "/api/v2/admin/tax-rates/clothing_sales_tax_7",
+            "@type": "TaxRate",
+            "zone": "/api/v2/admin/zones/US",
+            "id": 16151,
+            "code": "clothing_sales_tax_7",
+            "category": "/api/v2/admin/tax-categories/clothing",
+            "name": "Clothing Sales Tax 7%",
+            "amount": 0.07,
+            "includedInPrice": true,
+            "calculator": "default",
+            "startDate": null,
+            "endDate": null,
+            "createdAt": "2025-11-11 01:01:00",
+            "updatedAt": "2025-11-11 01:01:00"
+        }
+    ],
+    "hydra:view": {
+        "@id": "/api/v2/admin/tax-rates?itemsPerPage=1&page=1",
+        "@type": "hydra:PartialCollectionView",
+        "hydra:first": "/api/v2/admin/tax-rates?itemsPerPage=1&page=1",
+        "hydra:last": "/api/v2/admin/tax-rates?itemsPerPage=1&page=4",
+        "hydra:next": "/api/v2/admin/tax-rates?itemsPerPage=1&page=2"
+    },
+    "hydra:search": {
+        "@type": "hydra:IriTemplate",
+        "hydra:template": "/api/v2/admin/tax-rates{?startDate[before],startDate[strictly_before],startDate[after],startDate[strictly_after],endDate[before],endDate[strictly_before],endDate[after],endDate[strictly_after]}",
+        "hydra:variableRepresentation": "BasicRepresentation",
+        "hydra:mapping": [
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "startDate[before]",
+                "property": "startDate",
+                "required": false
+            },
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "startDate[strictly_before]",
+                "property": "startDate",
+                "required": false
+            },
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "startDate[after]",
+                "property": "startDate",
+                "required": false
+            },
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "startDate[strictly_after]",
+                "property": "startDate",
+                "required": false
+            },
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "endDate[before]",
+                "property": "endDate",
+                "required": false
+            },
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "endDate[strictly_before]",
+                "property": "endDate",
+                "required": false
+            },
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "endDate[after]",
+                "property": "endDate",
+                "required": false
+            },
+            {
+                "@type": "IriTemplateMapping",
+                "variable": "endDate[strictly_after]",
+                "property": "endDate",
+                "required": false
+            }
+        ]
+    }
+}

@@ -1,0 +1,41 @@
+2025-11-11 01:15:24 - DEBUG - Starting new HTTPS connection (1): v2.demo.sylius.com:443
+2025-11-11 01:15:25 - DEBUG - https://v2.demo.sylius.com:443 "POST /api/v2/admin/tax-rates HTTP/1.1" 201 None
+2025-11-11 01:15:25 - DEBUG - Starting new HTTPS connection (1): v2.demo.sylius.com:443
+2025-11-11 01:15:25 - DEBUG - https://v2.demo.sylius.com:443 "POST /api/v2/admin/tax-rates HTTP/1.1" 422 None
+2025-11-11 01:15:25 - INFO - IP ADDRESS OR DOMAIN: v2.demo.sylius.com
+2025-11-11 01:15:25 - DEBUG - REQUEST URL: https://v2.demo.sylius.com//api/v2/admin/tax-rates
+2025-11-11 01:15:25 - INFO - STATUS CODE: 422
+2025-11-11 01:15:25 - DEBUG - REQUEST HEADERS:
+{
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NjI4MjM2NzQsImV4cCI6MTc2MjgyNzI3NCwicm9sZXMiOlsiUk9MRV9BRE1JTklTVFJBVElPTl9BQ0NFU1MiLCJST0xFX0FQSV9BQ0NFU1MiXSwidXNlcm5hbWUiOiJhcGkifQ.AiLlOk5KfI47RZ85raS8PFbsO-mVx6xXgmacLWhpew8I7nNXPuhxtJZ_VJw3MvMJdfWtHkEienkuiEhRjAhayHY_676SqdyeHG6jSmMbJN5G2yMbTTSKDT2hCyVVOjunpRiEeGWZHSZnU83yTMrBXEvnUlsL9eziXS1yVIenA793FOnL5PtNWu3xQDrj17-eOs8ZDdi4LFFztdowjsVcZJF7b8QSHGZ0iwTII_MkbLKFCyQmIsO3iSP4YWud_3iiTf9zSzGXtiw-BNOPqWjNgwDxpBAQ0Il5Pc_oNCe6jDhGm-qgHqM8w7UTgyIOxujrRMNqBfBOBcCRWCMQi1PmzG59LvWnPJJfsY00siGPoZieqdeH0j7v0Ymv0Zv1YzUkk9rQwrmlEHOJVNpX_5pqQMOdlIi-FtWmQ5O2fBxG5oh1tZ1fx09eVpZJgqMITF16Po8olIQBGobC5UG4bIC1YL2GpOr9fwsAUsx-EWhl9l4vMomF0d0mJsS2uD8jw7aD0QCPRob5CSqKuWRX_W8GtdTaR2FwfA7xkXHlLCCe4_VkEJ9hb4AdhavcOen-TQQMtr5llvctiNqx2Hopzprl0QZVc6Dh4uDryU1VbrbnDFRYQyhIO3vSdF6eNRINbvwbRFVFSSDlnz_4AZcDQ7KdyG2T61jYKW2icc1s_X72Tgk"
+}
+2025-11-11 01:15:25 - DEBUG - PAYLOAD REQUEST:
+{
+    "code": "VAT_7bfd12b9",
+    "name": "Guy Tax Rate 1564",
+    "amount": 0.2,
+    "includedInPrice": true,
+    "calculator": "default",
+    "zone": "/api/v2/admin/zones/US",
+    "category": "/api/v2/admin/tax-categories/clothing"
+}
+2025-11-11 01:15:25 - DEBUG - RESPONSE:
+{
+    "@context": "/api/v2/contexts/ConstraintViolation",
+    "@id": "/api/v2/validation_errors/23bd9dbf-6b9b-41cd-a99e-4844bcf3077f",
+    "@type": "ConstraintViolation",
+    "status": 422,
+    "violations": [
+        {
+            "propertyPath": "code",
+            "message": "The tax rate with given code already exists.",
+            "code": "23bd9dbf-6b9b-41cd-a99e-4844bcf3077f"
+        }
+    ],
+    "detail": "code: The tax rate with given code already exists.",
+    "type": "/validation_errors/23bd9dbf-6b9b-41cd-a99e-4844bcf3077f",
+    "hydra:description": "code: The tax rate with given code already exists.",
+    "hydra:title": "An error occurred"
+}
+2025-11-11 01:15:25 - DEBUG - Starting new HTTPS connection (1): v2.demo.sylius.com:443
+2025-11-11 01:15:25 - DEBUG - https://v2.demo.sylius.com:443 "DELETE /api/v2/admin/tax-rates/VAT_7bfd12b9 HTTP/1.1" 204 0
