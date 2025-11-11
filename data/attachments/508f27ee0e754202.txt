@@ -1,1 +1,0 @@
-Cleanup: Customer group eliminado: test_552690_b3e3becf

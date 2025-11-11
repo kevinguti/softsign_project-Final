@@ -1,3 +1,0 @@
-Status Code in response: 400
-Response violations: []
-Response detail: The type of the "includedInPrice" attribute must be "bool", "string" given.

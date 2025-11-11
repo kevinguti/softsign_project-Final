@@ -1,1 +1,0 @@
-Validation error found for name: Tax rate name must not be longer than 255 characters.
